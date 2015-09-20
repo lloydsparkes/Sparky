@@ -1,0 +1,16 @@
+#This is a comment
+
+datatech:
+	effectq:
+		[ ${level} = ${level}]
+		/ level 			/ host				/ user				/ password
+		| dev				| google.com		| root				| P1ssword
+		| qa				| google.com		| root				| P1ssword
+		| prod				| google.com		| root				| P1ssword
+		
+		host=${host}/test
+		user=uid-${user}
+		password=pwd:${password}xxx
+	
+	stomp:
+		host=${datatech.effectq.host}
