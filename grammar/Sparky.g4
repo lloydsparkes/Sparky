@@ -1,63 +1,84 @@
 grammar Sparky;
 
-/** Lets Define all of our Tokens first **/
+tokens { INDENT, DEDENT }
 
-/** Character Sets **/
-NEWLINE : ('\r'? '\n')+;
-DENT : '\t' -> skip;
-SPACE : ' ' -> skip;
+@lexer::members {
+    private final SparkyIndentationHelper denter = SparkyIndentationHelper.builder()
+          .nl(NL)
+          .indent(SparkyParser.INDENT)
+          .dedent(SparkyParser.DEDENT)
+          .pullToken(SparkyLexer.super::nextToken);
 
-COMMENT : '#' ~[\r\n]* NEWLINE -> skip;
-ALPHA_NUM: [a-zA-Z0-9];
-ANY : .;
+    @Override
+    public Token nextToken() {
+        return denter.nextToken();
+    }
+}
 
-/** Now lets define parsing rules to build an AST **/
+/** Token section **/
 
-config: NEWLINE? block* EOF;
+//New line, needs to consume the spaces after the new line - note that it doesnt support \t yet....
+INDEXER         : '$$';
+COLON           : ':';
+F_START         : '[';
+F_END           : ']';
+EQ              : '=';
+VAR_START       : '${';
+VAR_END         : '}';
+PATH_SEPERATOR  : '.';
+CELL_SEPERATOR   : '|';
+HEADER_SEPERATOR   : '/';
+OVERRIDE        : '!';
 
-block: 
-	id ':' NEWLINE
-	table?
-	(block | pair NEWLINE?)*
-	NEWLINE?;
+NL: ('\r'? '\n' ' '*);
 
-id: ALPHA_NUM+;
+COMMENT : '#' ~[\r\n]* -> skip; //Strip out any comments
 
-str: ~('${' | NEWLINE)+;
-	
-pair: 
-	id '=' value;
-	
-value: 
-	(str | expr);
-	
-expr:
-	str? (variable str?);
+ID: ID_START ID_CONT*;
+ID_START: ALPHA;
+ID_CONT: ALPHA_NUM;
 
-variable: '${' variable_name '}';
-variable_name: id ('.' id)*;
-	
-table:
-	filters?
-	table_headers 
-	table_row+;
-	
-filters:
-	filter filter* NEWLINE;
-	
-filter: '[' variable '=' variable ']';
+//Dump all the other whitespace
+WS: [ \t]+ -> skip;
 
-table_headers:
-	table_header+ NEWLINE;
-	
-table_header:
-	'/' id+ ;
-	
-table_row:
-	table_cell+  NEWLINE;
-	
-table_cell:
-	'|' cell_value;
-	
-cell_value:
-	~('|' | NEWLINE)+;
+/** Lexer Fragments **/
+ALPHA_NUM: ALPHA | NUM;
+ALPHA : [a-zA-Z];
+NUM : [0-9];
+ANY_NOT_MATCHED: ~[\r\n];
+
+/** Parser Rules **/
+
+config: NL?
+        block*
+        EOF
+        ;
+
+block: (ID | INDEXER | ID PATH_SEPERATOR INDEXER) COLON NL
+       INDENT
+       table?
+       (block | keyvalue)*
+       DEDENT
+       ;
+
+table: filters?
+       headers
+       row*
+       ;
+
+filters: filter+ NL;
+filter: F_START variable EQ variable F_END;
+
+variable: VAR_START var_path VAR_END;
+var_path: (variable | ID)(PATH_SEPERATOR (variable | ID))*;
+
+headers: header+ NL;
+header: HEADER_SEPERATOR ID;
+
+row: cell+ NL;
+cell: CELL_SEPERATOR cell_value;
+cell_value: ~(NL | CELL_SEPERATOR)+;
+
+keyvalue: OVERRIDE? ID EQ value NL;
+value: (raw | variable)+;
+raw: ~(NL | VAR_START)+;
