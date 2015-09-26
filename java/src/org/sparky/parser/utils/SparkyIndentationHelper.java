@@ -1,3 +1,5 @@
+package org.sparky.parser.utils;
+
 /**
  * This file is intended to help us deal with handling indentations in the lexer/parser.
  *
@@ -20,17 +22,6 @@ import java.util.Deque;
 import java.util.Queue;
 
 public abstract class SparkyIndentationHelper {
-
-    public interface  DenterOptions{
-        /**
-         * Don't do any special handling for EOFs; they'll just be passed through normally. That is, we won't unwind indents
-         * or add an extra NL.
-         *
-         * This is useful when the lexer will be used to parse rules that are within a line, such as expressions. One use
-         * case for that might be unit tests that want to exercise these sort of "line fragments".
-         */
-        void ignoreEOF();
-    }
 
     private final Queue<Token> dentsBuffer = new ArrayDeque<>();
     private final Deque<Integer> indentations = new ArrayDeque<>();
@@ -71,8 +62,8 @@ public abstract class SparkyIndentationHelper {
         return r;
     }
 
-    public DenterOptions getOptions() {
-        return new DenterOptionsImpl();
+    public IndenterOptions getOptions() {
+        return new IndenterOptionsImpl();
     }
 
     protected abstract Token pullToken();
@@ -147,6 +138,17 @@ public abstract class SparkyIndentationHelper {
         }
     }
 
+    private final class IndenterOptionsImpl implements IndenterOptions {
+        @Override
+        public void ignoreEOF() {
+            eofHandler = t -> {
+                reachedEof = true;
+                return t;
+            };
+        }
+
+    }
+
     private Token createToken(int tokenType, Token copyFrom) {
         String tokenTypeStr;
         if (tokenType == nlToken) {
@@ -198,24 +200,6 @@ public abstract class SparkyIndentationHelper {
         return dentsBuffer.remove();
     }
 
-    private interface EofHandler {
-        Token apply(Token t);
-    }
-
-    private class DenterOptionsImpl implements DenterOptions {
-        @Override
-        public void ignoreEOF() {
-            eofHandler = new EofHandler() {
-                @Override
-                public Token apply(Token t) {
-                    reachedEof = true;
-                    return t;
-                }
-            };
-        }
-
-    }
-
     private static class InjectedToken extends CommonToken {
         private String type;
 
@@ -232,6 +216,8 @@ public abstract class SparkyIndentationHelper {
             return super.getText();
         }
     }
+
+    /** Builder Classes, Interfaces & Helpers **/
 
     public interface Builder0 {
         Builder1 nl(int nl);
@@ -293,3 +279,4 @@ public abstract class SparkyIndentationHelper {
     }
 
 }
+

@@ -1,4 +1,9 @@
 // Generated from D:/Projects/Sparky/grammar\Sparky.g4 by ANTLR 4.5.1
+
+package org.sparky.parser;
+
+import org.sparky.parser.utils.*;
+
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -103,19 +108,6 @@ public class SparkyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_config; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SparkyListener ) ((SparkyListener)listener).enterConfig(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SparkyListener ) ((SparkyListener)listener).exitConfig(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SparkyVisitor ) return ((SparkyVisitor<? extends T>)visitor).visitConfig(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ConfigContext config() throws RecognitionException {
@@ -134,21 +126,21 @@ public class SparkyParser extends Parser {
 				}
 			}
 
-			setState(36);
+			setState(34); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==INDEXER || _la==ID) {
+			do {
 				{
 				{
 				setState(33);
 				block();
 				}
 				}
-				setState(38);
+				setState(36); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			}
-			setState(39);
+			} while ( _la==INDEXER || _la==ID );
+			setState(38);
 			match(EOF);
 			}
 		}
@@ -190,19 +182,6 @@ public class SparkyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_block; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SparkyListener ) ((SparkyListener)listener).enterBlock(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SparkyListener ) ((SparkyListener)listener).exitBlock(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SparkyVisitor ) return ((SparkyVisitor<? extends T>)visitor).visitBlock(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final BlockContext block() throws RecognitionException {
@@ -212,72 +191,72 @@ public class SparkyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(46);
+			setState(45);
 			switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
 			case 1:
 				{
-				setState(41);
+				setState(40);
 				match(ID);
 				}
 				break;
 			case 2:
 				{
-				setState(42);
+				setState(41);
 				match(INDEXER);
 				}
 				break;
 			case 3:
 				{
-				setState(43);
+				setState(42);
 				match(ID);
-				setState(44);
+				setState(43);
 				match(PATH_SEPERATOR);
-				setState(45);
+				setState(44);
 				match(INDEXER);
 				}
 				break;
 			}
-			setState(48);
+			setState(47);
 			match(COLON);
-			setState(49);
+			setState(48);
 			match(NL);
-			setState(50);
+			setState(49);
 			match(INDENT);
-			setState(52);
+			setState(51);
 			_la = _input.LA(1);
 			if (_la==F_START || _la==HEADER_SEPERATOR) {
 				{
-				setState(51);
+				setState(50);
 				table();
 				}
 			}
 
-			setState(58);
+			setState(57);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << INDEXER) | (1L << OVERRIDE) | (1L << ID))) != 0)) {
 				{
-				setState(56);
+				setState(55);
 				switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
 				case 1:
 					{
-					setState(54);
+					setState(53);
 					block();
 					}
 					break;
 				case 2:
 					{
-					setState(55);
+					setState(54);
 					keyvalue();
 					}
 					break;
 				}
 				}
-				setState(60);
+				setState(59);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(61);
+			setState(60);
 			match(DEDENT);
 			}
 		}
@@ -309,19 +288,6 @@ public class SparkyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_table; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SparkyListener ) ((SparkyListener)listener).enterTable(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SparkyListener ) ((SparkyListener)listener).exitTable(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SparkyVisitor ) return ((SparkyVisitor<? extends T>)visitor).visitTable(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final TableContext table() throws RecognitionException {
@@ -331,28 +297,28 @@ public class SparkyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(64);
+			setState(63);
 			_la = _input.LA(1);
 			if (_la==F_START) {
 				{
-				setState(63);
+				setState(62);
 				filters();
 				}
 			}
 
-			setState(66);
+			setState(65);
 			headers();
-			setState(70);
+			setState(69);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==CELL_SEPERATOR) {
 				{
 				{
-				setState(67);
+				setState(66);
 				row();
 				}
 				}
-				setState(72);
+				setState(71);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -381,19 +347,6 @@ public class SparkyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_filters; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SparkyListener ) ((SparkyListener)listener).enterFilters(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SparkyListener ) ((SparkyListener)listener).exitFilters(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SparkyVisitor ) return ((SparkyVisitor<? extends T>)visitor).visitFilters(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final FiltersContext filters() throws RecognitionException {
@@ -403,21 +356,21 @@ public class SparkyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(74); 
+			setState(73); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(73);
+				setState(72);
 				filter();
 				}
 				}
-				setState(76); 
+				setState(75); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==F_START );
-			setState(78);
+			setState(77);
 			match(NL);
 			}
 		}
@@ -446,19 +399,6 @@ public class SparkyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_filter; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SparkyListener ) ((SparkyListener)listener).enterFilter(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SparkyListener ) ((SparkyListener)listener).exitFilter(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SparkyVisitor ) return ((SparkyVisitor<? extends T>)visitor).visitFilter(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final FilterContext filter() throws RecognitionException {
@@ -467,15 +407,15 @@ public class SparkyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(80);
+			setState(79);
 			match(F_START);
+			setState(80);
+			variable();
 			setState(81);
-			variable();
-			setState(82);
 			match(EQ);
-			setState(83);
+			setState(82);
 			variable();
-			setState(84);
+			setState(83);
 			match(F_END);
 			}
 		}
@@ -500,19 +440,6 @@ public class SparkyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_variable; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SparkyListener ) ((SparkyListener)listener).enterVariable(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SparkyListener ) ((SparkyListener)listener).exitVariable(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SparkyVisitor ) return ((SparkyVisitor<? extends T>)visitor).visitVariable(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final VariableContext variable() throws RecognitionException {
@@ -521,11 +448,11 @@ public class SparkyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(86);
+			setState(85);
 			match(VAR_START);
-			setState(87);
+			setState(86);
 			var_path();
-			setState(88);
+			setState(87);
 			match(VAR_END);
 			}
 		}
@@ -559,19 +486,6 @@ public class SparkyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_var_path; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SparkyListener ) ((SparkyListener)listener).enterVar_path(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SparkyListener ) ((SparkyListener)listener).exitVar_path(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SparkyVisitor ) return ((SparkyVisitor<? extends T>)visitor).visitVar_path(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final Var_pathContext var_path() throws RecognitionException {
@@ -581,42 +495,42 @@ public class SparkyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(92);
+			setState(91);
 			switch (_input.LA(1)) {
 			case VAR_START:
 				{
-				setState(90);
+				setState(89);
 				variable();
 				}
 				break;
 			case ID:
 				{
-				setState(91);
+				setState(90);
 				match(ID);
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
-			setState(101);
+			setState(100);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==PATH_SEPERATOR) {
 				{
 				{
-				setState(94);
+				setState(93);
 				match(PATH_SEPERATOR);
-				setState(97);
+				setState(96);
 				switch (_input.LA(1)) {
 				case VAR_START:
 					{
-					setState(95);
+					setState(94);
 					variable();
 					}
 					break;
 				case ID:
 					{
-					setState(96);
+					setState(95);
 					match(ID);
 					}
 					break;
@@ -625,7 +539,7 @@ public class SparkyParser extends Parser {
 				}
 				}
 				}
-				setState(103);
+				setState(102);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -654,19 +568,6 @@ public class SparkyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_headers; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SparkyListener ) ((SparkyListener)listener).enterHeaders(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SparkyListener ) ((SparkyListener)listener).exitHeaders(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SparkyVisitor ) return ((SparkyVisitor<? extends T>)visitor).visitHeaders(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final HeadersContext headers() throws RecognitionException {
@@ -676,21 +577,21 @@ public class SparkyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(105); 
+			setState(104); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(104);
+				setState(103);
 				header();
 				}
 				}
-				setState(107); 
+				setState(106); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==HEADER_SEPERATOR );
-			setState(109);
+			setState(108);
 			match(NL);
 			}
 		}
@@ -712,19 +613,6 @@ public class SparkyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_header; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SparkyListener ) ((SparkyListener)listener).enterHeader(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SparkyListener ) ((SparkyListener)listener).exitHeader(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SparkyVisitor ) return ((SparkyVisitor<? extends T>)visitor).visitHeader(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final HeaderContext header() throws RecognitionException {
@@ -733,9 +621,9 @@ public class SparkyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(111);
+			setState(110);
 			match(HEADER_SEPERATOR);
-			setState(112);
+			setState(111);
 			match(ID);
 			}
 		}
@@ -762,19 +650,6 @@ public class SparkyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_row; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SparkyListener ) ((SparkyListener)listener).enterRow(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SparkyListener ) ((SparkyListener)listener).exitRow(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SparkyVisitor ) return ((SparkyVisitor<? extends T>)visitor).visitRow(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final RowContext row() throws RecognitionException {
@@ -784,21 +659,21 @@ public class SparkyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(115); 
+			setState(114); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(114);
+				setState(113);
 				cell();
 				}
 				}
-				setState(117); 
+				setState(116); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==CELL_SEPERATOR );
-			setState(119);
+			setState(118);
 			match(NL);
 			}
 		}
@@ -822,19 +697,6 @@ public class SparkyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_cell; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SparkyListener ) ((SparkyListener)listener).enterCell(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SparkyListener ) ((SparkyListener)listener).exitCell(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SparkyVisitor ) return ((SparkyVisitor<? extends T>)visitor).visitCell(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final CellContext cell() throws RecognitionException {
@@ -843,9 +705,9 @@ public class SparkyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(121);
+			setState(120);
 			match(CELL_SEPERATOR);
-			setState(122);
+			setState(121);
 			cell_value();
 			}
 		}
@@ -873,19 +735,6 @@ public class SparkyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_cell_value; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SparkyListener ) ((SparkyListener)listener).enterCell_value(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SparkyListener ) ((SparkyListener)listener).exitCell_value(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SparkyVisitor ) return ((SparkyVisitor<? extends T>)visitor).visitCell_value(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final Cell_valueContext cell_value() throws RecognitionException {
@@ -895,13 +744,13 @@ public class SparkyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(125); 
+			setState(124); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(124);
+				setState(123);
 				_la = _input.LA(1);
 				if ( _la <= 0 || (_la==CELL_SEPERATOR || _la==NL) ) {
 				_errHandler.recoverInline(this);
@@ -910,7 +759,7 @@ public class SparkyParser extends Parser {
 				}
 				}
 				}
-				setState(127); 
+				setState(126); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << INDEXER) | (1L << COLON) | (1L << F_START) | (1L << F_END) | (1L << EQ) | (1L << VAR_START) | (1L << VAR_END) | (1L << PATH_SEPERATOR) | (1L << HEADER_SEPERATOR) | (1L << OVERRIDE) | (1L << COMMENT) | (1L << ID) | (1L << ID_START) | (1L << ID_CONT) | (1L << WS) | (1L << ALPHA_NUM) | (1L << ALPHA) | (1L << NUM) | (1L << ANY_NOT_MATCHED) | (1L << INDENT) | (1L << DEDENT))) != 0) );
@@ -939,19 +788,6 @@ public class SparkyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_keyvalue; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SparkyListener ) ((SparkyListener)listener).enterKeyvalue(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SparkyListener ) ((SparkyListener)listener).exitKeyvalue(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SparkyVisitor ) return ((SparkyVisitor<? extends T>)visitor).visitKeyvalue(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final KeyvalueContext keyvalue() throws RecognitionException {
@@ -961,22 +797,22 @@ public class SparkyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(130);
+			setState(129);
 			_la = _input.LA(1);
 			if (_la==OVERRIDE) {
 				{
-				setState(129);
+				setState(128);
 				match(OVERRIDE);
 				}
 			}
 
-			setState(132);
+			setState(131);
 			match(ID);
-			setState(133);
+			setState(132);
 			match(EQ);
-			setState(134);
+			setState(133);
 			value();
-			setState(135);
+			setState(134);
 			match(NL);
 			}
 		}
@@ -1008,19 +844,6 @@ public class SparkyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_value; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SparkyListener ) ((SparkyListener)listener).enterValue(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SparkyListener ) ((SparkyListener)listener).exitValue(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SparkyVisitor ) return ((SparkyVisitor<? extends T>)visitor).visitValue(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ValueContext value() throws RecognitionException {
@@ -1030,12 +853,12 @@ public class SparkyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(139); 
+			setState(138); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
-				setState(139);
+				setState(138);
 				switch (_input.LA(1)) {
 				case INDEXER:
 				case COLON:
@@ -1059,13 +882,13 @@ public class SparkyParser extends Parser {
 				case INDENT:
 				case DEDENT:
 					{
-					setState(137);
+					setState(136);
 					raw();
 					}
 					break;
 				case VAR_START:
 					{
-					setState(138);
+					setState(137);
 					variable();
 					}
 					break;
@@ -1073,7 +896,7 @@ public class SparkyParser extends Parser {
 					throw new NoViableAltException(this);
 				}
 				}
-				setState(141); 
+				setState(140); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << INDEXER) | (1L << COLON) | (1L << F_START) | (1L << F_END) | (1L << EQ) | (1L << VAR_START) | (1L << VAR_END) | (1L << PATH_SEPERATOR) | (1L << CELL_SEPERATOR) | (1L << HEADER_SEPERATOR) | (1L << OVERRIDE) | (1L << COMMENT) | (1L << ID) | (1L << ID_START) | (1L << ID_CONT) | (1L << WS) | (1L << ALPHA_NUM) | (1L << ALPHA) | (1L << NUM) | (1L << ANY_NOT_MATCHED) | (1L << INDENT) | (1L << DEDENT))) != 0) );
@@ -1103,19 +926,6 @@ public class SparkyParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_raw; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SparkyListener ) ((SparkyListener)listener).enterRaw(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SparkyListener ) ((SparkyListener)listener).exitRaw(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SparkyVisitor ) return ((SparkyVisitor<? extends T>)visitor).visitRaw(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final RawContext raw() throws RecognitionException {
@@ -1126,7 +936,7 @@ public class SparkyParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(144); 
+			setState(143); 
 			_errHandler.sync(this);
 			_alt = 1;
 			do {
@@ -1134,7 +944,7 @@ public class SparkyParser extends Parser {
 				case 1:
 					{
 					{
-					setState(143);
+					setState(142);
 					_la = _input.LA(1);
 					if ( _la <= 0 || (_la==VAR_START || _la==NL) ) {
 					_errHandler.recoverInline(this);
@@ -1147,7 +957,7 @@ public class SparkyParser extends Parser {
 				default:
 					throw new NoViableAltException(this);
 				}
-				setState(146); 
+				setState(145); 
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,18,_ctx);
 			} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
@@ -1165,47 +975,47 @@ public class SparkyParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\31\u0097\4\2\t\2"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\31\u0096\4\2\t\2"+
 		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
 		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\3\2\5\2\"\n\2\3\2"+
-		"\7\2%\n\2\f\2\16\2(\13\2\3\2\3\2\3\3\3\3\3\3\3\3\3\3\5\3\61\n\3\3\3\3"+
-		"\3\3\3\3\3\5\3\67\n\3\3\3\3\3\7\3;\n\3\f\3\16\3>\13\3\3\3\3\3\3\4\5\4"+
-		"C\n\4\3\4\3\4\7\4G\n\4\f\4\16\4J\13\4\3\5\6\5M\n\5\r\5\16\5N\3\5\3\5\3"+
-		"\6\3\6\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\b\3\b\5\b_\n\b\3\b\3\b\3\b\5"+
-		"\bd\n\b\7\bf\n\b\f\b\16\bi\13\b\3\t\6\tl\n\t\r\t\16\tm\3\t\3\t\3\n\3\n"+
-		"\3\n\3\13\6\13v\n\13\r\13\16\13w\3\13\3\13\3\f\3\f\3\f\3\r\6\r\u0080\n"+
-		"\r\r\r\16\r\u0081\3\16\5\16\u0085\n\16\3\16\3\16\3\16\3\16\3\16\3\17\3"+
-		"\17\6\17\u008e\n\17\r\17\16\17\u008f\3\20\6\20\u0093\n\20\r\20\16\20\u0094"+
-		"\3\20\2\2\21\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36\2\4\4\2\13\13\16\16"+
-		"\4\2\b\b\16\16\u009b\2!\3\2\2\2\4\60\3\2\2\2\6B\3\2\2\2\bL\3\2\2\2\nR"+
-		"\3\2\2\2\fX\3\2\2\2\16^\3\2\2\2\20k\3\2\2\2\22q\3\2\2\2\24u\3\2\2\2\26"+
-		"{\3\2\2\2\30\177\3\2\2\2\32\u0084\3\2\2\2\34\u008d\3\2\2\2\36\u0092\3"+
-		"\2\2\2 \"\7\16\2\2! \3\2\2\2!\"\3\2\2\2\"&\3\2\2\2#%\5\4\3\2$#\3\2\2\2"+
-		"%(\3\2\2\2&$\3\2\2\2&\'\3\2\2\2\')\3\2\2\2(&\3\2\2\2)*\7\2\2\3*\3\3\2"+
-		"\2\2+\61\7\20\2\2,\61\7\3\2\2-.\7\20\2\2./\7\n\2\2/\61\7\3\2\2\60+\3\2"+
-		"\2\2\60,\3\2\2\2\60-\3\2\2\2\61\62\3\2\2\2\62\63\7\4\2\2\63\64\7\16\2"+
-		"\2\64\66\7\30\2\2\65\67\5\6\4\2\66\65\3\2\2\2\66\67\3\2\2\2\67<\3\2\2"+
-		"\28;\5\4\3\29;\5\32\16\2:8\3\2\2\2:9\3\2\2\2;>\3\2\2\2<:\3\2\2\2<=\3\2"+
-		"\2\2=?\3\2\2\2><\3\2\2\2?@\7\31\2\2@\5\3\2\2\2AC\5\b\5\2BA\3\2\2\2BC\3"+
-		"\2\2\2CD\3\2\2\2DH\5\20\t\2EG\5\24\13\2FE\3\2\2\2GJ\3\2\2\2HF\3\2\2\2"+
-		"HI\3\2\2\2I\7\3\2\2\2JH\3\2\2\2KM\5\n\6\2LK\3\2\2\2MN\3\2\2\2NL\3\2\2"+
-		"\2NO\3\2\2\2OP\3\2\2\2PQ\7\16\2\2Q\t\3\2\2\2RS\7\5\2\2ST\5\f\7\2TU\7\7"+
-		"\2\2UV\5\f\7\2VW\7\6\2\2W\13\3\2\2\2XY\7\b\2\2YZ\5\16\b\2Z[\7\t\2\2[\r"+
-		"\3\2\2\2\\_\5\f\7\2]_\7\20\2\2^\\\3\2\2\2^]\3\2\2\2_g\3\2\2\2`c\7\n\2"+
-		"\2ad\5\f\7\2bd\7\20\2\2ca\3\2\2\2cb\3\2\2\2df\3\2\2\2e`\3\2\2\2fi\3\2"+
-		"\2\2ge\3\2\2\2gh\3\2\2\2h\17\3\2\2\2ig\3\2\2\2jl\5\22\n\2kj\3\2\2\2lm"+
-		"\3\2\2\2mk\3\2\2\2mn\3\2\2\2no\3\2\2\2op\7\16\2\2p\21\3\2\2\2qr\7\f\2"+
-		"\2rs\7\20\2\2s\23\3\2\2\2tv\5\26\f\2ut\3\2\2\2vw\3\2\2\2wu\3\2\2\2wx\3"+
-		"\2\2\2xy\3\2\2\2yz\7\16\2\2z\25\3\2\2\2{|\7\13\2\2|}\5\30\r\2}\27\3\2"+
-		"\2\2~\u0080\n\2\2\2\177~\3\2\2\2\u0080\u0081\3\2\2\2\u0081\177\3\2\2\2"+
-		"\u0081\u0082\3\2\2\2\u0082\31\3\2\2\2\u0083\u0085\7\r\2\2\u0084\u0083"+
-		"\3\2\2\2\u0084\u0085\3\2\2\2\u0085\u0086\3\2\2\2\u0086\u0087\7\20\2\2"+
-		"\u0087\u0088\7\7\2\2\u0088\u0089\5\34\17\2\u0089\u008a\7\16\2\2\u008a"+
-		"\33\3\2\2\2\u008b\u008e\5\36\20\2\u008c\u008e\5\f\7\2\u008d\u008b\3\2"+
-		"\2\2\u008d\u008c\3\2\2\2\u008e\u008f\3\2\2\2\u008f\u008d\3\2\2\2\u008f"+
-		"\u0090\3\2\2\2\u0090\35\3\2\2\2\u0091\u0093\n\3\2\2\u0092\u0091\3\2\2"+
-		"\2\u0093\u0094\3\2\2\2\u0094\u0092\3\2\2\2\u0094\u0095\3\2\2\2\u0095\37"+
-		"\3\2\2\2\25!&\60\66:<BHN^cgmw\u0081\u0084\u008d\u008f\u0094";
+		"\6\2%\n\2\r\2\16\2&\3\2\3\2\3\3\3\3\3\3\3\3\3\3\5\3\60\n\3\3\3\3\3\3\3"+
+		"\3\3\5\3\66\n\3\3\3\3\3\7\3:\n\3\f\3\16\3=\13\3\3\3\3\3\3\4\5\4B\n\4\3"+
+		"\4\3\4\7\4F\n\4\f\4\16\4I\13\4\3\5\6\5L\n\5\r\5\16\5M\3\5\3\5\3\6\3\6"+
+		"\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\b\3\b\5\b^\n\b\3\b\3\b\3\b\5\bc\n\b"+
+		"\7\be\n\b\f\b\16\bh\13\b\3\t\6\tk\n\t\r\t\16\tl\3\t\3\t\3\n\3\n\3\n\3"+
+		"\13\6\13u\n\13\r\13\16\13v\3\13\3\13\3\f\3\f\3\f\3\r\6\r\177\n\r\r\r\16"+
+		"\r\u0080\3\16\5\16\u0084\n\16\3\16\3\16\3\16\3\16\3\16\3\17\3\17\6\17"+
+		"\u008d\n\17\r\17\16\17\u008e\3\20\6\20\u0092\n\20\r\20\16\20\u0093\3\20"+
+		"\2\2\21\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36\2\4\4\2\13\13\16\16\4\2"+
+		"\b\b\16\16\u009a\2!\3\2\2\2\4/\3\2\2\2\6A\3\2\2\2\bK\3\2\2\2\nQ\3\2\2"+
+		"\2\fW\3\2\2\2\16]\3\2\2\2\20j\3\2\2\2\22p\3\2\2\2\24t\3\2\2\2\26z\3\2"+
+		"\2\2\30~\3\2\2\2\32\u0083\3\2\2\2\34\u008c\3\2\2\2\36\u0091\3\2\2\2 \""+
+		"\7\16\2\2! \3\2\2\2!\"\3\2\2\2\"$\3\2\2\2#%\5\4\3\2$#\3\2\2\2%&\3\2\2"+
+		"\2&$\3\2\2\2&\'\3\2\2\2\'(\3\2\2\2()\7\2\2\3)\3\3\2\2\2*\60\7\20\2\2+"+
+		"\60\7\3\2\2,-\7\20\2\2-.\7\n\2\2.\60\7\3\2\2/*\3\2\2\2/+\3\2\2\2/,\3\2"+
+		"\2\2\60\61\3\2\2\2\61\62\7\4\2\2\62\63\7\16\2\2\63\65\7\30\2\2\64\66\5"+
+		"\6\4\2\65\64\3\2\2\2\65\66\3\2\2\2\66;\3\2\2\2\67:\5\4\3\28:\5\32\16\2"+
+		"9\67\3\2\2\298\3\2\2\2:=\3\2\2\2;9\3\2\2\2;<\3\2\2\2<>\3\2\2\2=;\3\2\2"+
+		"\2>?\7\31\2\2?\5\3\2\2\2@B\5\b\5\2A@\3\2\2\2AB\3\2\2\2BC\3\2\2\2CG\5\20"+
+		"\t\2DF\5\24\13\2ED\3\2\2\2FI\3\2\2\2GE\3\2\2\2GH\3\2\2\2H\7\3\2\2\2IG"+
+		"\3\2\2\2JL\5\n\6\2KJ\3\2\2\2LM\3\2\2\2MK\3\2\2\2MN\3\2\2\2NO\3\2\2\2O"+
+		"P\7\16\2\2P\t\3\2\2\2QR\7\5\2\2RS\5\f\7\2ST\7\7\2\2TU\5\f\7\2UV\7\6\2"+
+		"\2V\13\3\2\2\2WX\7\b\2\2XY\5\16\b\2YZ\7\t\2\2Z\r\3\2\2\2[^\5\f\7\2\\^"+
+		"\7\20\2\2][\3\2\2\2]\\\3\2\2\2^f\3\2\2\2_b\7\n\2\2`c\5\f\7\2ac\7\20\2"+
+		"\2b`\3\2\2\2ba\3\2\2\2ce\3\2\2\2d_\3\2\2\2eh\3\2\2\2fd\3\2\2\2fg\3\2\2"+
+		"\2g\17\3\2\2\2hf\3\2\2\2ik\5\22\n\2ji\3\2\2\2kl\3\2\2\2lj\3\2\2\2lm\3"+
+		"\2\2\2mn\3\2\2\2no\7\16\2\2o\21\3\2\2\2pq\7\f\2\2qr\7\20\2\2r\23\3\2\2"+
+		"\2su\5\26\f\2ts\3\2\2\2uv\3\2\2\2vt\3\2\2\2vw\3\2\2\2wx\3\2\2\2xy\7\16"+
+		"\2\2y\25\3\2\2\2z{\7\13\2\2{|\5\30\r\2|\27\3\2\2\2}\177\n\2\2\2~}\3\2"+
+		"\2\2\177\u0080\3\2\2\2\u0080~\3\2\2\2\u0080\u0081\3\2\2\2\u0081\31\3\2"+
+		"\2\2\u0082\u0084\7\r\2\2\u0083\u0082\3\2\2\2\u0083\u0084\3\2\2\2\u0084"+
+		"\u0085\3\2\2\2\u0085\u0086\7\20\2\2\u0086\u0087\7\7\2\2\u0087\u0088\5"+
+		"\34\17\2\u0088\u0089\7\16\2\2\u0089\33\3\2\2\2\u008a\u008d\5\36\20\2\u008b"+
+		"\u008d\5\f\7\2\u008c\u008a\3\2\2\2\u008c\u008b\3\2\2\2\u008d\u008e\3\2"+
+		"\2\2\u008e\u008c\3\2\2\2\u008e\u008f\3\2\2\2\u008f\35\3\2\2\2\u0090\u0092"+
+		"\n\3\2\2\u0091\u0090\3\2\2\2\u0092\u0093\3\2\2\2\u0093\u0091\3\2\2\2\u0093"+
+		"\u0094\3\2\2\2\u0094\37\3\2\2\2\25!&/\659;AGM]bflv\u0080\u0083\u008c\u008e"+
+		"\u0093";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

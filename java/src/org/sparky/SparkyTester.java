@@ -1,5 +1,8 @@
+package org.sparky;
+
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.Token;
+import org.sparky.parser.SparkyLexer;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,6 +12,7 @@ import java.util.List;
  *
  */
 public class SparkyTester{
+
     public static void main(String[] args) throws IOException {
         ANTLRFileStream fs = new ANTLRFileStream("D:\\Projects\\Sparky\\examples\\sample.sparky");
         SparkyLexer lexer = new SparkyLexer(fs);

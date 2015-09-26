@@ -2,6 +2,12 @@ grammar Sparky;
 
 tokens { INDENT, DEDENT }
 
+@header {
+package org.sparky.parser;
+
+import org.sparky.parser.utils.*;
+}
+
 @lexer::members {
     private final SparkyIndentationHelper denter = SparkyIndentationHelper.builder()
           .nl(NL)
@@ -30,7 +36,7 @@ CELL_SEPERATOR   : '|';
 HEADER_SEPERATOR   : '/';
 OVERRIDE        : '!';
 
-NL: ('\r'? '\n' ' '*);
+NL: ('\r'? '\n' (' ' | '\t')*);
 
 COMMENT : '#' ~[\r\n]* -> skip; //Strip out any comments
 
