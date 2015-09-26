@@ -50,7 +50,7 @@ ANY_NOT_MATCHED: ~[\r\n];
 /** Parser Rules **/
 
 config: NL?
-        block*
+        block+
         EOF
         ;
 
