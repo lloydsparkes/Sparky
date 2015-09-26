@@ -1,4 +1,4 @@
-// Generated from D:/Projects/Sparky/grammar\Sparky.g4 by ANTLR 4.5.1
+// Generated from Sparky.g4 by ANTLR 4.5.1
 
 package org.sparky.parser;
 
