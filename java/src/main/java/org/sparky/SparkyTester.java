@@ -1,11 +1,12 @@
 package org.sparky;
 
 import org.antlr.v4.runtime.ANTLRFileStream;
-import org.antlr.v4.runtime.Token;
-import org.sparky.parser.SparkyLexer;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.sparky.model.builders.BlockBuilder;
+import org.sparky.model.builders.ConfigurationBuilder;
+import org.sparky.parser.*;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
  * A number of tester methods useful in diagnosing issues
@@ -16,16 +17,14 @@ public class SparkyTester{
     public static void main(String[] args) throws IOException {
         ANTLRFileStream fs = new ANTLRFileStream("D:\\Projects\\Sparky\\examples\\sample.sparky");
         SparkyLexer lexer = new SparkyLexer(fs);
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
 
-        List<? extends Token> tokens = lexer.getAllTokens();
-        int iToken = 0;
-        for(Token t : tokens){
-            System.out.format("%6d: %4d.%3d: T%3d C%3d; '%s'%n",
-                    iToken,
-                    t.getLine(), t.getCharPositionInLine(),
-                    t.getType(), t.getChannel(),
-                    t.getText());
-            iToken++;
-        }
+        //TODO: Set Error Handler
+        SparkyParser ps = new SparkyParser(tokens);
+
+        SparkyVistorImpl walker = new SparkyVistorImpl();
+        ConfigurationBuilder built = walker.visit(ps.config());
+
+
     }
 }

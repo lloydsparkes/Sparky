@@ -28,7 +28,7 @@ public class SparkyCompiler {
      *
      *  The new object model is effectively a wrapper around nested hashmaps
      *
-     *      class Configuration implements KeyProvider {
+     *      class Configuration implements ValueProvider {
      *          HashMap{BlockName, BlockContent} _internal;
      *
      *          Configuration but(externalKey, newValue); //For overriding
@@ -38,4 +38,6 @@ public class SparkyCompiler {
      *
      *
      */
+
+
 }

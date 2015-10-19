@@ -33,7 +33,7 @@
                 <version>4.5.1</version>
                 <configuration>
                     <listener>false</listener>
-                    <visitor>false</visitor>
+                    <visitor>true</visitor>
                     <sourceDirectory>${basedir}/../grammar/</sourceDirectory>
                     <outputDirectory>${basedir}/src/main/java/org/sparky/parser</outputDirectory>
                 </configuration>
