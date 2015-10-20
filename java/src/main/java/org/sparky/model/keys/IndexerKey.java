@@ -12,12 +12,15 @@ import java.util.Collection;
  */
 public class IndexerKey extends Key {
 
-    public IndexerKey() {
+    private Table table;
+
+    public IndexerKey(Table referencedTable) {
         super(KeyType.Indexer);
+        this.table = referencedTable;
     }
 
     @Override
-    public Collection<String> values(Table nearestTable) {
-        return null;
+    public Collection<String> values() {
+        return table.valuesForColumn("$$");
     }
 }

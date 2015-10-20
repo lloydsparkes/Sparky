@@ -20,5 +20,14 @@ public abstract class Key {
         this.type = type;
     }
 
-    public abstract Collection<String> values(Table nearestTable);
+    public boolean matches(String toTest){
+        for(String s : values()){
+            if(s.equals(toTest)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public abstract Collection<String> values();
 }

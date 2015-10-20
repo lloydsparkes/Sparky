@@ -1,5 +1,7 @@
 package org.sparky.model;
 
+import org.sparky.model.exceptions.InvalidKeyException;
+
 import java.util.*;
 
 /**
@@ -24,40 +26,37 @@ import java.util.*;
  *
  * Created by lloyd on 19/10/2015.
  */
-public class Block implements ValueProvider {
+public class Block {
 
-    private Block parent;
-    private String name;
-    private List<ValueProvider> children = new ArrayList<>();
-    private Table table = null;
+    private Key key = null;
+    private List<Block> children = new ArrayList<>();
+    private Map<Key, Rule> rules = new HashMap<>();
 
-    @Override
-    public boolean willResolve(String pathBit) {
-        return false;
+    public Key getKey() {
+        return key;
     }
 
-    @Override
-    public String getValue(Queue<String> pathBits, ValueProvider rootProvider) {
-        if(pathBits.peek() == null){
-            throw new RuntimeException("We have finished traversing the key provided, but we found a block, not a value");
+    public String getValue(Queue<String> pathBits, Configuration root) throws InvalidKeyException {
+        if(pathBits.size() == 0){
+            throw new InvalidKeyException("We could not resolve the key. Key ended in a Block");
         }
         String toFulfil = pathBits.remove();
 
-        for(ValueProvider p : children){
-            /**if(p.getKey().willResolve(toFulfil)){
-                return p.getValue(pathBits, rootProvider);
-            }**/
+        //If this was the last path bit, THEN it must match a rule, otherwise it MUST match a block
+        if(pathBits.size() == 0){
+            for(Key k : rules.keySet()){
+                if(k.matches(toFulfil)){
+                    return rules.get(key).resolve(root);
+                }
+            }
+            throw new InvalidKeyException(String.format("We could not resolve the given key. No rules match the key's name %s", toFulfil));
+        } else {
+            for (Block p : children) {
+                if (p.getKey().matches(toFulfil)) {
+                    return p.getValue(pathBits, root);
+                }
+            }
+            throw new InvalidKeyException(String.format("We could not resolve the given key. No child blocks match the keys name: %s", toFulfil));
         }
-        return null;
-    }
-
-    @Override
-    public Collection<String> getKeys(ValueProvider rootProvider) {
-        return null;
-    }
-
-    @Override
-    public Collection<String> getKeys(Queue<String> pathBits, ValueProvider rootProvider) {
-        return null;
     }
 }

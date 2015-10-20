@@ -1,8 +1,6 @@
 package org.sparky.model.keys;
 
 import org.sparky.model.Key;
-import org.sparky.model.Table;
-import org.sparky.model.ValueProvider;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,7 +19,7 @@ public class ConstantKey extends Key {
     }
 
     @Override
-    public Collection<String> values(Table nearestTable) {
+    public Collection<String> values() {
         List<String> t = new ArrayList<>();
         t.add(value);
         return t;
