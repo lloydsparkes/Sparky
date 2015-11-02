@@ -1,5 +1,7 @@
 package org.sparky.model;
 
+import org.sparky.model.exceptions.InvalidColumnNameException;
+
 import java.util.Collection;
 
 /**
@@ -20,7 +22,7 @@ public abstract class Key {
         this.type = type;
     }
 
-    public boolean matches(String toTest){
+    public boolean matches(String toTest) throws InvalidColumnNameException {
         for(String s : values()){
             if(s.equals(toTest)){
                 return true;
@@ -29,5 +31,5 @@ public abstract class Key {
         return false;
     }
 
-    public abstract Collection<String> values();
+    public abstract Collection<String> values() throws InvalidColumnNameException;
 }

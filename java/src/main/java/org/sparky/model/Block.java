@@ -1,5 +1,6 @@
 package org.sparky.model;
 
+import org.sparky.model.exceptions.InvalidColumnNameException;
 import org.sparky.model.exceptions.InvalidKeyException;
 
 import java.util.*;

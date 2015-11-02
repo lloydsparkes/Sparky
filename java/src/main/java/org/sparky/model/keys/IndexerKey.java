@@ -2,6 +2,7 @@ package org.sparky.model.keys;
 
 import org.sparky.model.Key;
 import org.sparky.model.Table;
+import org.sparky.model.exceptions.InvalidColumnNameException;
 
 import java.util.Collection;
 
@@ -20,7 +21,7 @@ public class IndexerKey extends Key {
     }
 
     @Override
-    public Collection<String> values() {
+    public Collection<String> values() throws InvalidColumnNameException {
         return table.valuesForColumn("$$");
     }
 }

@@ -1,8 +1,11 @@
 package org.sparky.model.builders;
 
-import org.sparky.model.ValueProvider;
+import org.sparky.model.Block;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lloyd on 17/10/2015.
@@ -51,8 +54,7 @@ public class BlockBuilder implements ConfigurationBuilder {
         return this;
     }
 
-    @Override
-    public ValueProvider build(ConfigurationBuilder parent) {
+    public Block build(ConfigurationBuilder parent) {
         return null;
     }
 }

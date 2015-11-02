@@ -1,6 +1,6 @@
 package org.sparky.model.builders;
 
-import org.sparky.model.ValueProvider;
+import org.sparky.model.Filter;
 
 /**
  * Created by lloyd on 19/10/2015.
@@ -20,8 +20,7 @@ public class FilterBuilder implements ConfigurationBuilder {
         return this;
     }
 
-    @Override
-    public ValueProvider build(ConfigurationBuilder parent) {
+    public Filter build(ConfigurationBuilder parent) {
         return null;
     }
 }

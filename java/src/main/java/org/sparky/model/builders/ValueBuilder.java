@@ -1,7 +1,5 @@
 package org.sparky.model.builders;
 
-import org.sparky.model.ValueProvider;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +16,7 @@ public class ValueBuilder implements EvaluatableBuilder {
         return this;
     }
 
-    @Override
-    public ValueProvider build(ConfigurationBuilder parent) {
+    public String build(ConfigurationBuilder parent) {
         return null;
     }
 }
