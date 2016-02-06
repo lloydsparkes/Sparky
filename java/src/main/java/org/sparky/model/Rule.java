@@ -12,7 +12,8 @@ public class Rule {
     interface Bit {
         String getValue(Configuration root) throws InvalidKeyException;
     }
-    class PlainBit implements Bit {
+
+    public class PlainBit implements Bit {
 
         private String value;
 
@@ -21,7 +22,8 @@ public class Rule {
             return value;
         }
     }
-    class KeyBit implements Bit {
+
+    public class KeyBit implements Bit {
 
         private String key;
 

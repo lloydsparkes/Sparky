@@ -1,16 +1,21 @@
 package org.sparky.model.builders;
 
 import org.sparky.model.Block;
+import org.sparky.model.Key;
+import org.sparky.model.Rule;
+import org.sparky.model.Table;
+import org.sparky.model.keys.ConstantKey;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by lloyd on 17/10/2015.
  */
-public class BlockBuilder implements ConfigurationBuilder {
+public class BlockBuilder {
 
     private String name;
     private VariableBuilder nameBuilder;
@@ -54,7 +59,25 @@ public class BlockBuilder implements ConfigurationBuilder {
         return this;
     }
 
-    public Block build(ConfigurationBuilder parent) {
-        return null;
+    public Block build() {
+        List<Block> b = blocks.stream().map(BlockBuilder::build).collect(Collectors.toList());
+
+        Table t = table == null ? null : table.build();
+
+        Map<Key, Rule> kvps = new HashMap<>();
+        for(String key : rules.keySet()){
+
+            Key k = new ConstantKey(key);
+            Rule r = null;
+
+            if(rules.get(key).size() > 1){
+                r = rules.get(key).get(true).build();
+            } else {
+                r = rules.get(key).values().iterator().next().build();
+            }
+            kvps.put(k, r);
+        }
+
+        return new Block(new ConstantKey(name), b, kvps, t);
     }
 }

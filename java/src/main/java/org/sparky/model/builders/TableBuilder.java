@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by lloyd on 19/10/2015.
  */
-public class TableBuilder implements ConfigurationBuilder {
+public class TableBuilder {
 
     private List<FilterBuilder> filters = new ArrayList<>();
     private List<String> headers  = new ArrayList<>();
@@ -29,7 +29,7 @@ public class TableBuilder implements ConfigurationBuilder {
         return this;
     }
 
-    public Table build(ConfigurationBuilder parent) {
+    public Table build() {
         return null;
     }
 }

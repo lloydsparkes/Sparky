@@ -9,10 +9,10 @@ import org.sparky.model.builders.*;
  *
  * Created by lloyd on 17/10/2015.
  */
-public class SparkyVistorImpl extends SparkyBaseVisitor<ConfigurationBuilder> {
+public class SparkyVistorImpl extends SparkyBaseVisitor<Object> {
 
     @Override
-    public ConfigurationBuilder visitConfig(SparkyParser.ConfigContext ctx) {
+    public BlockBuilder visitConfig(SparkyParser.ConfigContext ctx) {
         BlockBuilder builder = new BlockBuilder();
 
         for(SparkyParser.BlockContext block : ctx.block()){

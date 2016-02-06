@@ -1,5 +1,7 @@
 package org.sparky.model.builders;
 
+import org.sparky.model.Rule;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +18,7 @@ public class ValueBuilder implements EvaluatableBuilder {
         return this;
     }
 
-    public String build(ConfigurationBuilder parent) {
+    public Rule build() {
         return null;
     }
 }

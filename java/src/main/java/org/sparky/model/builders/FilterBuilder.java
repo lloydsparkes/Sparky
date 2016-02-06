@@ -5,7 +5,7 @@ import org.sparky.model.Filter;
 /**
  * Created by lloyd on 19/10/2015.
  */
-public class FilterBuilder implements ConfigurationBuilder {
+public class FilterBuilder {
 
     private VariableBuilder left;
     private VariableBuilder right;
@@ -20,7 +20,7 @@ public class FilterBuilder implements ConfigurationBuilder {
         return this;
     }
 
-    public Filter build(ConfigurationBuilder parent) {
+    public Filter build() {
         return null;
     }
 }

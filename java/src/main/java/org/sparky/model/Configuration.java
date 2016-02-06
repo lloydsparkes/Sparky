@@ -18,6 +18,10 @@ public class Configuration {
     private Map<String, String> externs = new HashMap<>();
     private Block root;
 
+    public Configuration(Block root){
+        this.root = root;
+    }
+
     public String get(String key) throws InvalidKeyException {
         String[] pathBits = key.split(".");
 

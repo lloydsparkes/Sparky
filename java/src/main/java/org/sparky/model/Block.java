@@ -1,6 +1,5 @@
 package org.sparky.model;
 
-import org.sparky.model.exceptions.InvalidColumnNameException;
 import org.sparky.model.exceptions.InvalidKeyException;
 
 import java.util.*;
@@ -29,9 +28,17 @@ import java.util.*;
  */
 public class Block {
 
-    private Key key = null;
-    private List<Block> children = new ArrayList<>();
-    private Map<Key, Rule> rules = new HashMap<>();
+    private final Key key;
+    private final List<Block> children;
+    private final Map<Key, Rule> rules;
+    private final Table table;
+
+    public Block(Key key, List<Block> children, Map<Key, Rule> rules, Table table) {
+        this.key = key;
+        this.children = children;
+        this.rules = rules;
+        this.table = table;
+    }
 
     public Key getKey() {
         return key;

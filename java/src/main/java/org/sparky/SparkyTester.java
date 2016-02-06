@@ -2,9 +2,11 @@ package org.sparky;
 
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.sparky.model.Block;
 import org.sparky.model.builders.BlockBuilder;
-import org.sparky.model.builders.ConfigurationBuilder;
-import org.sparky.parser.*;
+import org.sparky.parser.SparkyLexer;
+import org.sparky.parser.SparkyParser;
+import org.sparky.parser.SparkyVistorImpl;
 
 import java.io.IOException;
 
@@ -23,8 +25,8 @@ public class SparkyTester{
         SparkyParser ps = new SparkyParser(tokens);
 
         SparkyVistorImpl walker = new SparkyVistorImpl();
-        ConfigurationBuilder built = walker.visit(ps.config());
+        BlockBuilder built = (BlockBuilder)walker.visit(ps.config());
 
-
+        Block configuration = built.build();
     }
 }
