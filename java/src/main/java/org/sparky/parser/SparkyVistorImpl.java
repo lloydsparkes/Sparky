@@ -2,6 +2,7 @@ package org.sparky.parser;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
+import org.sparky.model.Rule;
 import org.sparky.model.builders.*;
 
 /**
@@ -33,8 +34,8 @@ public class SparkyVistorImpl extends SparkyBaseVisitor<Object> {
             builder = builder.withIndexer();
         }
         if(ctx.block_name().simple_variable() != null) {
-            builder.withName(new VariableBuilder(VariableBuilder.VariableType.Table).withStep(
-                    new RawStep(ctx.block_name().simple_variable().ID().getText())
+            builder.withName(new VariableBuilder().withBit(
+                    new Rule.KeyBit(ctx.block_name().simple_variable().ID().getText())
             ));
         }
 
@@ -61,8 +62,10 @@ public class SparkyVistorImpl extends SparkyBaseVisitor<Object> {
     public TableBuilder visitTable(SparkyParser.TableContext ctx) {
         TableBuilder builder = new TableBuilder();
 
-        for(SparkyParser.FilterContext f : ctx.filters().filter()){
-            builder.withFilter(visitFilter(f));
+        if(ctx.filters() != null) {
+            for (SparkyParser.FilterContext f : ctx.filters().filter()) {
+                builder.withFilter(visitFilter(f));
+            }
         }
 
         for(SparkyParser.HeaderContext h : ctx.headers().header()){
@@ -99,7 +102,7 @@ public class SparkyVistorImpl extends SparkyBaseVisitor<Object> {
 
     @Override
     public VariableBuilder visitSimple_variable(SparkyParser.Simple_variableContext ctx){
-        return new VariableBuilder(VariableBuilder.VariableType.Table).withStep(new RawStep(ctx.ID().getText()));
+        return new VariableBuilder().withBit(new Rule.KeyBit(ctx.ID().getText()));
     }
 
     @Override
@@ -109,19 +112,19 @@ public class SparkyVistorImpl extends SparkyBaseVisitor<Object> {
 
     @Override
     public VariableBuilder visitExternal_variable(SparkyParser.External_variableContext ctx){
-        return new VariableBuilder(VariableBuilder.VariableType.External).withStep(new RawStep(ctx.EXTERNAL_ID().getText()));
+        return new VariableBuilder().withBit(new Rule.KeyBit(ctx.EXTERNAL_ID().getText()));
     }
 
     @Override
     public VariableBuilder visitVar_path(SparkyParser.Var_pathContext ctx) {
-        VariableBuilder builder = new VariableBuilder(VariableBuilder.VariableType.Complex);
+        VariableBuilder builder = new VariableBuilder();
 
         for(ParseTree bit : ctx.children){
             if(bit instanceof TerminalNode && ((TerminalNode) bit).getSymbol().getTokenIndex() == SparkyParser.ID){
-                builder.withStep(new RawStep(bit.getText()));
+                builder.withBit(new Rule.PlainBit(bit.getText()));
             }
             if(bit instanceof SparkyParser.VariableContext){
-                builder.withStep(visitVariable(((SparkyParser.VariableContext) bit)));
+                builder.withBit(visitVariable(((SparkyParser.VariableContext) bit)).build());
             }
         }
         return builder;
@@ -141,10 +144,10 @@ public class SparkyVistorImpl extends SparkyBaseVisitor<Object> {
 
         for(ParseTree bit : ctx.children){
             if(bit instanceof SparkyParser.RawContext){
-                builder.withStep(new RawStep(bit.getText()));
+                builder.withBit(new Rule.PlainBit(bit.getText()));
             }
             if(bit instanceof SparkyParser.VariableContext){
-                builder.withStep(visitVariable(((SparkyParser.VariableContext) bit)));
+                builder.withBit(visitVariable(((SparkyParser.VariableContext) bit)).build());
             }
         }
 

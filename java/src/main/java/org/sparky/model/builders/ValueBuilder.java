@@ -1,5 +1,6 @@
 package org.sparky.model.builders;
 
+import org.sparky.model.Bit;
 import org.sparky.model.Rule;
 
 import java.util.ArrayList;
@@ -10,15 +11,15 @@ import java.util.List;
  */
 public class ValueBuilder implements EvaluatableBuilder {
 
-    private final List<Step> steps = new ArrayList<>();
+    private final List<Bit> bits = new ArrayList<>();
 
     @Override
-    public ValueBuilder withStep(Step step) {
-        steps.add(step);
+    public ValueBuilder withBit(Bit bit) {
+        bits.add(bit);
         return this;
     }
 
     public Rule build() {
-        return null;
+        return new Rule(bits);
     }
 }

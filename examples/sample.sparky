@@ -2,7 +2,7 @@
 
 database:
     server:
-        [ ${level} = ${level}]
+        [ ${level} = ${LEVEL}]
         / level             / host              / user              / password
         | dev               | google.com        | root              | P1ssword
         | qa                | google.com        | root              | P1ssword

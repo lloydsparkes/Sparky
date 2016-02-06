@@ -1,5 +1,6 @@
 package org.sparky.model.builders;
 
+import org.sparky.model.Bit;
 import org.sparky.model.Rule;
 
 /**
@@ -7,7 +8,7 @@ import org.sparky.model.Rule;
  */
 public interface EvaluatableBuilder {
 
-    EvaluatableBuilder withStep(Step step);
+    EvaluatableBuilder withBit(Bit bit);
 
     Rule build();
 }

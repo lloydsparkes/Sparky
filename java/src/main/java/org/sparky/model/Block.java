@@ -1,6 +1,7 @@
 package org.sparky.model;
 
 import org.sparky.model.exceptions.InvalidKeyException;
+import org.sparky.model.keys.ConstantKey;
 
 import java.util.*;
 
@@ -54,7 +55,7 @@ public class Block {
         if(pathBits.size() == 0){
             for(Key k : rules.keySet()){
                 if(k.matches(toFulfil)){
-                    return rules.get(key).resolve(root);
+                    return rules.get(new ConstantKey(toFulfil)).resolve(root);
                 }
             }
             throw new InvalidKeyException(String.format("We could not resolve the given key. No rules match the key's name %s", toFulfil));

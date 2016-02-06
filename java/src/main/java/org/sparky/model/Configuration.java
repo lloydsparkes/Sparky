@@ -23,7 +23,7 @@ public class Configuration {
     }
 
     public String get(String key) throws InvalidKeyException {
-        String[] pathBits = key.split(".");
+        String[] pathBits = key.split("\\.");
 
         if(pathBits.length == 1){
             //Do we have an external key?
