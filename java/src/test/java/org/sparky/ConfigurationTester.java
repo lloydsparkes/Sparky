@@ -15,19 +15,17 @@ import org.sparky.parser.SparkyVistorImpl;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 import static junit.framework.TestCase.assertEquals;
 
 @RunWith(Parameterized.class)
 public class ConfigurationTester {
-    public static class Expectation{
+    public static class KeyValue {
         private final String key;
         private final String value;
 
-        public Expectation(String key, String value) {
+        public KeyValue(String key, String value) {
             this.key = key;
             this.value = value;
         }
@@ -68,14 +66,17 @@ public class ConfigurationTester {
         return null;
     }
 
-    public List<Expectation> getExpectations(){
+    public Map<List<KeyValue>, List<KeyValue>> getTestsInFile(){
+        Map<List<KeyValue>, List<KeyValue>> tests = new HashMap<>();
+
         File f = new File(file.getAbsolutePath() + ".expectations");
         if(!f.exists()){
             throw new IllegalStateException("Could not file .expectations file for input file of:" + file.getAbsolutePath());
         }
 
         List<String> rows = new ArrayList<>();
-        List<Expectation> expectations = new ArrayList<>();
+        List<KeyValue> expectations = new ArrayList<>();
+        List<KeyValue> externals = new ArrayList<>();
 
         try {
             rows = Files.readAllLines(f.toPath());
@@ -84,21 +85,42 @@ public class ConfigurationTester {
         }
 
         for(String row : rows){
-            String[] bits = row.split("=");
-            expectations.add(new Expectation(bits[0], bits[1]));
+            if(row.startsWith("WHEN:")){
+                if(expectations.size() > 0){
+                    tests.put(externals, expectations);
+                    externals = new ArrayList<>();
+                    expectations = new ArrayList<>();
+                }
+                String[] bits = row.replace("WHEN:", "").split("=");
+                externals.add(new KeyValue(bits[0], bits[1]));
+            } else if (!row.isEmpty()) {
+                String[] bits = row.split("=");
+                expectations.add(new KeyValue(bits[0], bits[1]));
+            }
         }
 
-        return expectations;
+        tests.put(externals, expectations);
+        return tests;
     }
 
     @Test
     public void execute() throws InvalidKeyException {
         Configuration config = getConfiguration();
-        List<Expectation> expectations = getExpectations();
 
-        for(Expectation e : expectations){
-            System.out.println(String.format("Checking %s evaluates to %s", e.getKey(), e.getValue()));
-            assertEquals(e.getValue(), config.get(e.getKey()));
+        Map<List<KeyValue>, List<KeyValue>> tests = getTestsInFile();
+
+        for(List<KeyValue> externs : tests.keySet()) {
+            for(KeyValue extern : externs){
+                //config.setExtern(extern.getKey(), extern.getValue());
+            }
+            for (KeyValue toTest : tests.get(externs)) {
+                try {
+                    assertEquals(toTest.getValue(), config.get(toTest.getKey()));
+                    System.out.println(String.format("SUCCESS: Checking %s evaluates to %s", toTest.getKey(), toTest.getValue()));
+                } catch (Exception e) {
+                    System.out.println(String.format("FAILED: Checking %s evaluates to %s", toTest.getKey(), toTest.getValue()));
+                }
+            }
         }
     }
 

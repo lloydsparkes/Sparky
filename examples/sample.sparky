@@ -3,10 +3,10 @@
 database:
     server:
         [ ${level} = ${LEVEL}]
-        / level             / host              / user              / password
-        | dev               | google.com        | root              | P1ssword
-        | qa                | google.com        | root              | P1ssword
-        | prod              | google.com        | root              | P1ssword
+        / level             / host               / user               / password
+        | dev               | google1.com        | root1              | P1ssword
+        | qa                | google2.com        | root2              | P2ssword
+        | prod              | google3.com        | root3              | P3ssword
         
         host=${host}/test
         user=uid-${user}
@@ -15,17 +15,16 @@ database:
         !user=lloyd
         
     connection:
-        / level             / host              / user              / password
-        | dev               | google.com        | root              | P1ssword
-        | qa                | google.com        | root              | P1ssword
-        | prod              | google.com        | root              | P1ssword
+        / level             / host               / user               / password
+        | dev               | google4.com        | root4              | P4ssword
+        | qa                | google5.com        | root5              | P5ssword
+        | prod              | google6.com        | root6              | P6ssword
         
         $$:
             host=${host}/test
             user=uid-${user}
             password=pwd:${password}xxx
-        
-            !user=lloyd
+            level=${level}
     
     stomp:
-        host=${datatech.effectq.host}
+        host=${database.host}
