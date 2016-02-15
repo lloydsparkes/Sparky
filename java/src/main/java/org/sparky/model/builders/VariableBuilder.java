@@ -1,6 +1,7 @@
 package org.sparky.model.builders;
 
 import org.sparky.model.Bit;
+import org.sparky.model.KeyRule;
 import org.sparky.model.Rule;
 
 import java.util.ArrayList;
@@ -21,6 +22,16 @@ public class VariableBuilder implements EvaluatableBuilder {
 
     @Override
     public Rule build() {
-        return new Rule(bits);
+        return new KeyRule(bits);
+    }
+
+    public String buildAsColumnName(){
+        if(bits.size() != 1){
+            throw new IllegalStateException("A TableColumn Variable should only have a single bit");
+        }
+        if(!(bits.get(0) instanceof Rule.KeyBit)){
+            throw new IllegalStateException("A TableColumn Variable should only have a single KeyBit");
+        }
+        return ((Rule.KeyBit)bits.get(0)).getKey();
     }
 }

@@ -58,7 +58,7 @@ public class ConfigurationTester {
             SparkyVistorImpl walker = new SparkyVistorImpl();
             BlockBuilder built = (BlockBuilder) walker.visit(ps.config());
 
-            return new Configuration(built.build());
+            return new Configuration(built.build(null));
         }
         catch (IOException e){
             e.printStackTrace();
@@ -81,7 +81,7 @@ public class ConfigurationTester {
         try {
             rows = Files.readAllLines(f.toPath());
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
 
         for(String row : rows){
@@ -111,15 +111,15 @@ public class ConfigurationTester {
 
         for(List<KeyValue> externs : tests.keySet()) {
             for(KeyValue extern : externs){
-                //config.setExtern(extern.getKey(), extern.getValue());
+                config.setExternalVariable(extern.getKey(), extern.getValue());
             }
             for (KeyValue toTest : tests.get(externs)) {
-                try {
+
                     assertEquals(toTest.getValue(), config.get(toTest.getKey()));
-                    System.out.println(String.format("SUCCESS: Checking %s evaluates to %s", toTest.getKey(), toTest.getValue()));
-                } catch (Exception e) {
-                    System.out.println(String.format("FAILED: Checking %s evaluates to %s", toTest.getKey(), toTest.getValue()));
-                }
+                    System.out.println(String.format("SUCCESS: Checking '%s' evaluates to '%s'", toTest.getKey(), toTest.getValue()));
+
+                    //System.out.println(String.format("FAILED: Checking '%s' evaluates to '%s' : got '%s'", toTest.getKey(), toTest.getValue(), "Invalid Key Exception"));
+
             }
         }
     }

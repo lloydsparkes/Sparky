@@ -120,8 +120,8 @@ public class SparkyVistorImpl extends SparkyBaseVisitor<Object> {
         VariableBuilder builder = new VariableBuilder();
 
         for(ParseTree bit : ctx.children){
-            if(bit instanceof TerminalNode && ((TerminalNode) bit).getSymbol().getTokenIndex() == SparkyParser.ID){
-                builder.withBit(new Rule.PlainBit(bit.getText()));
+            if(bit instanceof TerminalNode && ((TerminalNode) bit).getSymbol().getType() == SparkyParser.ID){
+                builder.withBit(new Rule.KeyBit(bit.getText()));
             }
             if(bit instanceof SparkyParser.VariableContext){
                 builder.withBit(visitVariable(((SparkyParser.VariableContext) bit)).build());

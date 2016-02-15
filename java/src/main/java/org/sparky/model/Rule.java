@@ -2,6 +2,7 @@ package org.sparky.model;
 
 import org.sparky.model.exceptions.InvalidKeyException;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ public class Rule implements Bit {
         }
 
         @Override
-        public String getValue(Configuration root) {
+        public String getValue(Configuration root, Table currentTable) {
             return value;
         }
     }
@@ -30,27 +31,38 @@ public class Rule implements Bit {
             this.key = key;
         }
 
+        public String getKey() {
+            return key;
+        }
+
         @Override
-        public String getValue(Configuration root) throws InvalidKeyException {
+        public String getValue(Configuration root, Table currentTable) throws InvalidKeyException {
+            if(!key.toUpperCase().equals(key) && !key.contains(".")){
+                //Attempt a Table lookup
+                List<String> values = currentTable.valuesForColumn(key, root);
+                if(values.size() == 1){
+                    return values.get(0);
+                }
+            }
             return root.get(key);
         }
     }
 
-    private List<Bit> bits;
+    protected List<Bit> bits;
 
     public Rule(List<Bit> bits){
         this.bits = bits;
     }
 
     @Override
-    public String getValue(Configuration root) throws InvalidKeyException {
-        return resolve(root);
+    public String getValue(Configuration root, Table currentTable) throws InvalidKeyException {
+        return resolve(root, currentTable);
     }
 
-    public String resolve(Configuration root) throws InvalidKeyException {
+    private String resolve(Configuration root, Table currentTable) throws InvalidKeyException {
         StringBuilder builder = new StringBuilder();
         for(Bit b : bits){
-            builder.append(b.getValue(root));
+            builder.append(b.getValue(root, currentTable));
         }
         return builder.toString();
     }

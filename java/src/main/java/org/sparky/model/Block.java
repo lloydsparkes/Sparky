@@ -2,6 +2,7 @@ package org.sparky.model;
 
 import org.sparky.model.exceptions.InvalidKeyException;
 import org.sparky.model.keys.ConstantKey;
+import org.sparky.model.keys.IndexerKey;
 
 import java.util.*;
 
@@ -29,10 +30,10 @@ import java.util.*;
  */
 public class Block {
 
-    private final Key key;
-    private final List<Block> children;
-    private final Map<Key, Rule> rules;
-    private final Table table;
+    protected final Key key;
+    protected final List<Block> children;
+    protected final Map<Key, Rule> rules;
+    protected final Table table;
 
     public Block(Key key, List<Block> children, Map<Key, Rule> rules, Table table) {
         this.key = key;
@@ -54,18 +55,22 @@ public class Block {
         //If this was the last path bit, THEN it must match a rule, otherwise it MUST match a block
         if(pathBits.size() == 0){
             for(Key k : rules.keySet()){
-                if(k.matches(toFulfil)){
-                    return rules.get(new ConstantKey(toFulfil)).resolve(root);
+                if(k.matches(toFulfil, root)){
+                    return rules.get(new ConstantKey(toFulfil)).getValue(root, table);
                 }
             }
-            throw new InvalidKeyException(String.format("We could not resolve the given key. No rules match the key's name %s", toFulfil));
+            throw new InvalidKeyException(String.format("We could not resolve the given key. No rules match the key's name '%s'", toFulfil));
         } else {
             for (Block p : children) {
-                if (p.getKey().matches(toFulfil)) {
-                    return p.getValue(pathBits, root);
+                if (p.getKey().matches(toFulfil, root)) {
+                    if(p instanceof IndexerBlock){
+                        return ((IndexerBlock)p).getValue(toFulfil, pathBits, root);
+                    } else {
+                        return p.getValue(pathBits, root);
+                    }
                 }
             }
-            throw new InvalidKeyException(String.format("We could not resolve the given key. No child blocks match the keys name: %s", toFulfil));
+            throw new InvalidKeyException(String.format("We could not resolve the given key. No child blocks match the keys name: '%s'", toFulfil));
         }
     }
 }

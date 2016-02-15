@@ -11,16 +11,61 @@ import java.util.*;
  * Created by lloyd on 19/10/2015.
  */
 public class Table {
+    public static final String INDEX_KEY = "$$";
 
     private Map<String, Integer> columns = new HashMap<>();
     private String[][] data;
     private Map<String, Filter> filters = new HashMap<>();
 
     private String[][] cachedFiltered;
+    private Integer currentRow = null;
 
-    public Collection<String> valuesForColumn(String columnName, Configuration root) throws InvalidKeyException {
+    public Table(Map<String, Integer> columns, String[][] data, Map<String, Filter> filters) {
+        this.columns = columns;
+        this.data = data;
+        this.filters = filters;
+    }
+
+    /**
+     * Indexes Run 1..n not 0..n
+     * @param tableIndex
+     * @param root
+     * @return
+     * @throws InvalidKeyException
+     */
+    public boolean isIndexValid(Integer tableIndex, Configuration root) throws InvalidKeyException {
         if(haveFiltersChanged(root) || cachedFiltered == null){
             applyFilters(root);
+        }
+
+        if((tableIndex-1) <= cachedFiltered.length && tableIndex >= 0){
+            return true;
+        }
+        return false;
+    }
+
+    public void setRowIndex(Integer rowIndex){
+        currentRow = rowIndex-1;
+    }
+
+    public void clearRowIndex(){
+        currentRow = null;
+    }
+
+    public List<String> valuesForColumn(String columnName, Configuration root) throws InvalidKeyException {
+        if(haveFiltersChanged(root) || cachedFiltered == null){
+            applyFilters(root);
+        }
+
+        int firstRow = currentRow == null ? 0 : currentRow;
+        int maxRow = currentRow == null ? cachedFiltered.length : currentRow + 1;
+
+        if(columnName.equals(INDEX_KEY)){
+            List<String> indexes = new ArrayList<>();
+            for(int row = firstRow; row < maxRow; row++){
+                indexes.add(Integer.toString(row+1));
+            }
+            return indexes;
         }
 
         if(columns.containsKey(columnName)){
@@ -28,14 +73,23 @@ public class Table {
 
             Set<String> values = new HashSet<>();
 
-            for(int row = 0; row < cachedFiltered.length; row++){
+            for(int row = firstRow; row < maxRow; row++){
                 values.add(cachedFiltered[row][columnIndex]);
             }
 
-            return values;
+            return new ArrayList<>(values);
         } else {
             throw new InvalidColumnNameException(columnName);
         }
+    }
+
+    public String valueForColumn(String columnName, Configuration root) throws InvalidKeyException {
+        List<String> values = valuesForColumn(columnName, root);
+
+        if(values.size() == 1){
+            return values.get(0);
+        }
+        throw new InvalidKeyException(String.format("Query for '%s' Column returned either 0 or > 1 value.", columnName));
     }
 
     private void applyFilters(Configuration root) throws InvalidKeyException {

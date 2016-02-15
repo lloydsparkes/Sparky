@@ -10,16 +10,20 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 public class Filter {
 
     private String lastValue;
-    private String valueKey;
+    private Rule valueKey;
+
+    public Filter(Rule valueKey) {
+        this.valueKey = valueKey;
+    }
 
     public boolean hasChanged(Configuration root) throws InvalidKeyException {
         if(lastValue == null){
-            return false;
+            return true;
         }
         return lastValue.equals(getValue(root));
     }
 
     public String getValue(Configuration root) throws InvalidKeyException {
-        return root.get(valueKey);
+        return valueKey.getValue(root, null);
     }
 }

@@ -27,4 +27,4 @@ database:
             level=${level}
     
     stomp:
-        host=${database.host}
+        host=${database.server.host}

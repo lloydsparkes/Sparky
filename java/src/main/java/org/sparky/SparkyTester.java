@@ -29,7 +29,7 @@ public class SparkyTester{
         SparkyVistorImpl walker = new SparkyVistorImpl();
         BlockBuilder built = (BlockBuilder)walker.visit(ps.config());
 
-        Configuration c = new Configuration(built.build());
+        Configuration c = new Configuration(built.build(null));
 
         System.out.println("Database Username: " + c.get("database.server.user"));
     }

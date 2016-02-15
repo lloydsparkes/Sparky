@@ -17,7 +17,7 @@ public class RowBuilder {
         return this;
     }
 
-    public Table build() {
-        return null;
+    public String get(Integer index){
+        return values.get(index);
     }
 }

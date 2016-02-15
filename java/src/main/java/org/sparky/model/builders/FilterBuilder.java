@@ -1,6 +1,10 @@
 package org.sparky.model.builders;
 
 import org.sparky.model.Filter;
+import org.sparky.model.Rule;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by lloyd on 19/10/2015.
@@ -16,11 +20,15 @@ public class FilterBuilder {
     }
 
     public FilterBuilder withRight(VariableBuilder variableBuilder){
-        left = variableBuilder;
+        right = variableBuilder;
         return this;
     }
 
-    public Filter build() {
-        return null;
+    public String columnName(){
+        return left.buildAsColumnName();
+    }
+
+    public Rule getRule() {
+        return right.build();
     }
 }

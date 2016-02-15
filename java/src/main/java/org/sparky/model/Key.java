@@ -22,8 +22,8 @@ public abstract class Key {
         this.type = type;
     }
 
-    public boolean matches(String toTest) throws InvalidColumnNameException {
-        for(String s : values()){
+    public boolean matches(String toTest, Configuration root) throws InvalidColumnNameException {
+        for(String s : values(root)){
             if(s.equals(toTest)){
                 return true;
             }
@@ -31,5 +31,5 @@ public abstract class Key {
         return false;
     }
 
-    public abstract Collection<String> values() throws InvalidColumnNameException;
+    public abstract Collection<String> values(Configuration root) throws InvalidColumnNameException;
 }

@@ -1,5 +1,6 @@
 package org.sparky.model.keys;
 
+import org.sparky.model.Configuration;
 import org.sparky.model.Key;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class ConstantKey extends Key {
     }
 
     @Override
-    public Collection<String> values() {
+    public Collection<String> values(Configuration root) {
         List<String> t = new ArrayList<>();
         t.add(value);
         return t;

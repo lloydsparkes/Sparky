@@ -1,10 +1,8 @@
 package org.sparky.model.builders;
 
-import org.sparky.model.Block;
-import org.sparky.model.Key;
-import org.sparky.model.Rule;
-import org.sparky.model.Table;
+import org.sparky.model.*;
 import org.sparky.model.keys.ConstantKey;
+import org.sparky.model.keys.IndexerKey;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,7 +17,7 @@ public class BlockBuilder {
 
     private String name;
     private VariableBuilder nameBuilder;
-    private boolean hasIndexer = false;
+    private boolean isIndexer = false;
 
     private List<BlockBuilder> blocks = new ArrayList<>();
     private Map<String, Map<Boolean, EvaluatableBuilder>> rules = new HashMap<>();
@@ -41,7 +39,7 @@ public class BlockBuilder {
     }
 
     public BlockBuilder withIndexer(){
-        hasIndexer = true;
+        isIndexer = true;
         return this;
     }
 
@@ -59,10 +57,10 @@ public class BlockBuilder {
         return this;
     }
 
-    public Block build() {
-        List<Block> b = blocks.stream().map(BlockBuilder::build).collect(Collectors.toList());
+    public Block build(Table parentTable) {
+        Table t = table == null ? parentTable : table.build();
 
-        Table t = table == null ? null : table.build();
+        List<Block> b = blocks.stream().map(bl -> bl.build(t)).collect(Collectors.toList());
 
         Map<Key, Rule> kvps = new HashMap<>();
         for(String key : rules.keySet()){
@@ -76,6 +74,10 @@ public class BlockBuilder {
                 r = rules.get(key).values().iterator().next().build();
             }
             kvps.put(k, r);
+        }
+
+        if(isIndexer){
+            return new IndexerBlock(new IndexerKey(t), b, kvps, t);
         }
 
         return new Block(new ConstantKey(name), b, kvps, t);

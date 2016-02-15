@@ -14,8 +14,8 @@ import java.util.Collection;
  */
 public class IndexerKey extends TableKey {
 
-    public IndexerKey(Table referencedTable, Configuration root) {
-        super(KeyType.Indexer, "$$", referencedTable, root);
+    public IndexerKey(Table referencedTable) {
+        super(KeyType.Indexer, Table.INDEX_KEY, referencedTable);
     }
 
 }

@@ -40,9 +40,13 @@ public class Configuration {
         return root.getValue(pathQ, this);
     }
 
+    public void setExternalVariable(String key, String value) throws InvalidKeyException {
+        externs.put(key.toUpperCase(), value);
+    }
+
     private String getExternalVariable(String key) throws InvalidKeyException {
-        if(externs.containsKey(key)){
-            return externs.get(key);
+        if(externs.containsKey(key.toUpperCase())){
+            return externs.get(key.toUpperCase());
         }
         throw new InvalidKeyException(String.format("Could not find an external key %s", key));
     }

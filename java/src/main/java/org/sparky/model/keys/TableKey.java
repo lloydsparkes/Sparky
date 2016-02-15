@@ -15,21 +15,19 @@ public class TableKey extends Key {
 
     private String columnName;
     private Table table;
-    private Configuration root;
 
-    protected TableKey(KeyType type, String columnName, Table referencedTable, Configuration root){
+    protected TableKey(KeyType type, String columnName, Table referencedTable){
         super(type);
         this.columnName = columnName;
         this.table = referencedTable;
-        this.root = root;
     }
 
-    public TableKey(String columnName, Table referencedTable, Configuration root){
-        this(KeyType.TableColumn, columnName, referencedTable, root);
+    public TableKey(String columnName, Table referencedTable){
+        this(KeyType.TableColumn, columnName, referencedTable);
     }
 
     @Override
-    public Collection<String> values() throws InvalidColumnNameException {
+    public Collection<String> values(Configuration root) throws InvalidColumnNameException {
         try {
             return table.valuesForColumn(columnName, root);
         } catch(InvalidKeyException e){
