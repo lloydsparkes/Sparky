@@ -2,25 +2,6 @@ grammar Sparky;
 
 tokens { INDENT, DEDENT }
 
-@header {
-package org.sparky.parser;
-
-import org.sparky.parser.utils.*;
-}
-
-@lexer::members {
-    private final SparkyIndentationHelper denter = SparkyIndentationHelper.builder()
-          .nl(NL)
-          .indent(SparkyParser.INDENT)
-          .dedent(SparkyParser.DEDENT)
-          .pullToken(SparkyLexer.super::nextToken);
-
-    @Override
-    public Token nextToken() {
-        return denter.nextToken();
-    }
-}
-
 /** Token section **/
 
 //New line, needs to consume the spaces after the new line - note that it doesnt support \t yet....

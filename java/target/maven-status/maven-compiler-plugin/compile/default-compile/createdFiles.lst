@@ -1,4 +1,16 @@
 org\sparky\model\Key$KeyType.class
 org\sparky\model\keys\ConstantKey.class
+org\sparky\parser\SparkyIndentationHelper$Builder0.class
+org\sparky\parser\SparkyIndentationHelper$1.class
+org\sparky\parser\SparkyIndentationHelper$InjectedToken.class
+org\sparky\parser\SparkyIndentationHelper$IndenterOptionsImpl.class
+org\sparky\parser\SparkyIndentationHelper$TokenPuller.class
+org\sparky\parser\SparkyIndentationHelper$BuilderImpl.class
 org\sparky\model\keys\IndexerKey.class
+org\sparky\parser\SparkyIndentationHelper$BuilderImpl$1.class
+org\sparky\parser\SparkyIndentationHelper$Builder2.class
+org\sparky\parser\SparkyIndentationHelper$Builder3.class
 org\sparky\model\keys\TableKey.class
+org\sparky\parser\SparkyIndentationHelper.class
+org\sparky\parser\SparkyIndentationHelper$Builder1.class
+org\sparky\parser\SparkyIndentationHelper$StandardEofHandler.class

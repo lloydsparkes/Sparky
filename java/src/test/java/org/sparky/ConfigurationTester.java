@@ -9,6 +9,7 @@ import org.sparky.model.Configuration;
 import org.sparky.model.builders.BlockBuilder;
 import org.sparky.model.exceptions.InvalidKeyException;
 import org.sparky.parser.SparkyLexer;
+import org.sparky.parser.SparkyLexerFixed;
 import org.sparky.parser.SparkyParser;
 import org.sparky.parser.SparkyVistorImpl;
 
@@ -49,7 +50,7 @@ public class ConfigurationTester {
         try {
             //Yes this is bad, but I want to use the shared examples so all platforms utilise them.
             ANTLRFileStream fs = new ANTLRFileStream(file.getAbsolutePath());
-            SparkyLexer lexer = new SparkyLexer(fs);
+            SparkyLexerFixed lexer = new SparkyLexerFixed(fs);
             CommonTokenStream tokens = new CommonTokenStream(lexer);
 
             //TODO: Set Error Handler

@@ -43,6 +43,10 @@
                     <visitor>true</visitor>
                     <sourceDirectory>${basedir}/../grammar/</sourceDirectory>
                     <outputDirectory>${basedir}/src/main/java/org/sparky/parser</outputDirectory>
+                    <arguments>
+                        <argument>-package</argument>
+                        <argument>org.sparky.parser</argument>
+                    </arguments>
                 </configuration>
                 <executions>
                     <execution>

@@ -1,9 +1,5 @@
 // Generated from Sparky.g4 by ANTLR 4.5.1
-
 package org.sparky.parser;
-
-import org.sparky.parser.utils.*;
-
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
@@ -78,18 +74,6 @@ public class SparkyLexer extends Lexer {
 	public Vocabulary getVocabulary() {
 		return VOCABULARY;
 	}
-
-
-	    private final SparkyIndentationHelper denter = SparkyIndentationHelper.builder()
-	          .nl(NL)
-	          .indent(SparkyParser.INDENT)
-	          .dedent(SparkyParser.DEDENT)
-	          .pullToken(SparkyLexer.super::nextToken);
-
-	    @Override
-	    public Token nextToken() {
-	        return denter.nextToken();
-	    }
 
 
 	public SparkyLexer(CharStream input) {

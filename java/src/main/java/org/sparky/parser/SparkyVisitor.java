@@ -1,9 +1,5 @@
 // Generated from Sparky.g4 by ANTLR 4.5.1
-
 package org.sparky.parser;
-
-import org.sparky.parser.utils.*;
-
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**

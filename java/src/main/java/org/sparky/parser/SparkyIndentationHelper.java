@@ -1,4 +1,4 @@
-package org.sparky.parser.utils;
+package org.sparky.parser;
 
 /**
  * This file is intended to help us deal with handling indentations in the lexer/parser.
@@ -16,6 +16,8 @@ package org.sparky.parser.utils;
 
 import org.antlr.v4.runtime.CommonToken;
 import org.antlr.v4.runtime.Token;
+import org.sparky.parser.utils.EofHandler;
+import org.sparky.parser.utils.IndenterOptions;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
