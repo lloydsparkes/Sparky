@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Parser\SparkyIndentationHelper.cs" />
     <Compile Include="Parser\SparkyLexerFixed.cs" />
+    <Compile Include="Parser\Utils\InjectedToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -8,16 +8,12 @@ namespace Sparky.Parser
 {
     public class SparkyLexerFixed : SparkyLexer
     {
-        private SparkyIndentationHelper denter;
+        private readonly SparkyIndentationHelper denter;
 
         public SparkyLexerFixed(ICharStream input)
 		    : base(input)
 	    {
-            denter = SparkyIndentationHelper.builder()
-              .nl(NL)
-              .indent(SparkyParser.INDENT)
-              .dedent(SparkyParser.DEDENT)
-              .pullToken(base.NextToken);
+            denter = new SparkyIndentationHelper(NL, SparkyParser.INDENT, SparkyParser.DEDENT, base.NextToken);
         }
 
         public override IToken NextToken()

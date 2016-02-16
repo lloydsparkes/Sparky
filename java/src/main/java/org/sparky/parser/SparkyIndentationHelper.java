@@ -45,10 +45,6 @@ public abstract class SparkyIndentationHelper {
                 ? pullToken()
                 : dentsBuffer.remove();
 
-        if(t.getLine() == 26){
-            t.getLine();
-        }
-
         if (reachedEof) {
             return t;
         }

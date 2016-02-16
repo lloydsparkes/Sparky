@@ -1,4 +1,5 @@
 ﻿using Antlr4.Runtime;
+using Sparky.Parser.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,56 +9,178 @@ namespace Sparky.Parser
 {
     public class SparkyIndentationHelper
     {
-        private int nlToken;
-        private int indentToken;
-        private int dedentToken;
+        private readonly int _nlToken;
+        private readonly int _indentToken;
+        private readonly int _dedentToken;
+        private readonly Func<IToken> _puller;
 
-        public SparkyIndentationHelper(int nl, int indent, int dedent)
+        private readonly Queue<IToken> _dentsBuffer = new Queue<IToken>();
+        private readonly Queue<int> _indentations = new Queue<int>();
+
+        private bool _reachedEof = false;
+
+        public SparkyIndentationHelper(int nl, int indent, int dedent, Func<IToken> puller)
         {
-            nlToken = nl;
-            indentToken = indent;
-            dedentToken = dedent;
+            _nlToken = nl;
+            _indentToken = indent;
+            _dedentToken = dedent;
+            _puller = puller;
         }
 
         public IToken NextToken()
         {
-            return null;
+            initOnFirstRun();
+            IToken t = _dentsBuffer.Count == 0 ? _puller() : _dentsBuffer.Dequeue();
+
+            if (_reachedEof)
+            {
+                return t;
+            }
+
+            IToken r = null;
+            if(t.Type == _nlToken)
+            {
+                r = handleNewLineToken(t);
+            } else if(t.Type == TokenConstants.Eof)
+            {
+                r = handleEof(t);
+            } 
+            else
+            {
+                r = t;
+            }
+            return r;
         }
 
-        public static SparkyIndedentationBuilder builder()
+        private void initOnFirstRun()
         {
-            return new SparkyIndedentationBuilder();
+            if(_indentations.Count == 0)
+            {
+                _indentations.Enqueue(0);
+
+                IToken firstRealToken = _puller();
+                do
+                {
+                    firstRealToken = _puller();
+                }
+                while (firstRealToken.Type == _nlToken);
+
+                if(firstRealToken.StartIndex > 0)
+                {
+                    _indentations.Enqueue(firstRealToken.StartIndex);
+                    _dentsBuffer.Enqueue(createToken(_indentToken, firstRealToken));
+                }
+                _dentsBuffer.Enqueue(firstRealToken);
+            }
         }
 
-
-        public class SparkyIndedentationBuilder
+        private IToken handleNewLineToken(IToken t)
         {
-            private int nlToken;
-            private int indentToken;
-            private int dedentToken;
-
-            public SparkyIndedentationBuilder nl(int nl)
+            IToken nextNext = _puller();
+            while(nextNext.Type == _nlToken)
             {
-                nlToken = nl;
-                return this;
+                t = nextNext;
+                nextNext = _puller();
             }
 
-            public SparkyIndedentationBuilder indent(int indent)
+            if(nextNext.Type == TokenConstants.Eof)
             {
-                indentToken = indent;
-                return this;
+                return handleEof(nextNext);
             }
 
-            public SparkyIndedentationBuilder dedent(int dedent)
+            int indent = t.Text.Length - 1;
+            if(indent > 0 && t.Text[0] == '\r')
             {
-                dedentToken = dedent;
-                return this;
+                --indent;
             }
 
-            public SparkyIndentationHelper pullToken(Func<IToken> tokenPuller)
+            int prevIndent = _indentations.Peek();
+            IToken r = null;
+            if(indent == prevIndent)
             {
-                return new SparkyIndentationHelper(nlToken, indentToken, dedentToken);
+                r = createToken(_nlToken, t);
             }
+            else if(indent > prevIndent)
+            {
+                _indentations.Enqueue(indent);
+                _dentsBuffer.Enqueue(createToken(_indentToken, t));
+                r = createToken(_nlToken, t);
+            }
+            else
+            {
+                r = unwindTo(indent, t);
+            }
+            _dentsBuffer.Enqueue(nextNext);
+            return r;
+        }
+
+        private IToken handleEof(IToken t)
+        {
+            IToken r = null;
+
+            if(_indentations.Count == 0)
+            {
+                r = createToken(_nlToken, t);
+                _dentsBuffer.Enqueue(t);
+            }
+            else
+            {
+                r = unwindTo(0, t);
+                _dentsBuffer.Enqueue(t);
+            }
+            _reachedEof = true;
+            return r;
+        }
+
+        private IToken unwindTo(int indentTarget, IToken t)
+        {
+            //assert dentsBuffer.isEmpty() : dentsBuffer;
+            _dentsBuffer.Enqueue(createToken(_nlToken, t));
+
+            // To make things easier, we'll queue up ALL of the dedents, and then pop off the first one.
+            // For example, here's how some text is analyzed:
+            //
+            //  Text          :  Indentation  :  Action         : Indents Deque
+            //  [ baseline ]  :  0            :  nothing        : [0]
+            //  [   foo    ]  :  2            :  INDENT         : [0, 2]
+            //  [    bar   ]  :  3            :  INDENT         : [0, 2, 3]
+            //  [ baz      ]  :  0            :  DEDENT x2      : [0]
+
+            while (true)
+            {
+                int prevIndent = _indentations.Dequeue();
+                if(prevIndent == indentTarget)
+                {
+                    break;
+                }
+                if(indentTarget > prevIndent)
+                {
+                    _indentations.Enqueue(prevIndent);
+                    _dentsBuffer.Enqueue(createToken(_indentToken, t));
+                    break;
+                }
+                _dentsBuffer.Enqueue(createToken(_dedentToken, t));
+            }
+            _indentations.Enqueue(indentTarget);
+            return _dentsBuffer.Dequeue();
+        }
+
+        private IToken createToken(int tokenType, IToken copyFrom)
+        {
+            string tokenTypeStr = null;
+            if(tokenType == _nlToken)
+            {
+                tokenTypeStr = "newline";
+            }
+            else if(tokenType == _indentToken)
+            {
+                tokenTypeStr = "ident";
+            }
+            else if (tokenType == _dedentToken)
+            {
+                tokenTypeStr = "dedent";
+            }
+            return new InjectedToken(copyFrom, tokenType, tokenTypeStr);
         }
     }
 }
