@@ -39,9 +39,9 @@ public class Rule implements Bit {
         public String getValue(Configuration root, Table currentTable) throws InvalidKeyException {
             if(!key.toUpperCase().equals(key) && !key.contains(".")){
                 //Attempt a Table lookup
-                List<String> values = currentTable.valuesForColumn(key, root);
-                if(values.size() == 1){
-                    return values.get(0);
+                String value = currentTable.valueForColumn(key, root);
+                if(value != null){
+                    return value;
                 }
             }
             return root.get(key);

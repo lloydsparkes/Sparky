@@ -50,6 +50,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Block.cs" />
+    <Compile Include="Model\Configuration.cs" />
+    <Compile Include="Model\Exceptions\InvalidColumnNameException.cs" />
+    <Compile Include="Model\Exceptions\InvalidKeyException.cs" />
+    <Compile Include="Model\Filter.cs" />
+    <Compile Include="Model\IConfiguration.cs" />
+    <Compile Include="Model\IKey.cs" />
+    <Compile Include="Model\IndexerBlock.cs" />
+    <Compile Include="Model\IPartial.cs" />
+    <Compile Include="Model\Table.cs" />
     <Compile Include="Parser\SparkyIndentationHelper.cs" />
     <Compile Include="Parser\SparkyLexerFixed.cs" />
     <Compile Include="Parser\Utils\InjectedToken.cs" />

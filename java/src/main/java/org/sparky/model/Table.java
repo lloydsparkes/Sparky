@@ -38,10 +38,7 @@ public class Table {
             applyFilters(root);
         }
 
-        if((tableIndex-1) <= cachedFiltered.length && tableIndex >= 0){
-            return true;
-        }
-        return false;
+        return ((tableIndex-1) <= cachedFiltered.length && tableIndex >= 0);
     }
 
     public void setRowIndex(Integer rowIndex){
