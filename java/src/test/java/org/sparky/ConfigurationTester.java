@@ -119,8 +119,6 @@ public class ConfigurationTester {
                     assertEquals(toTest.getValue(), config.get(toTest.getKey()));
                     System.out.println(String.format("SUCCESS: Checking '%s' evaluates to '%s'", toTest.getKey(), toTest.getValue()));
 
-                    //System.out.println(String.format("FAILED: Checking '%s' evaluates to '%s' : got '%s'", toTest.getKey(), toTest.getValue(), "Invalid Key Exception"));
-
             }
         }
     }

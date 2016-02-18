@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sparky", "Sparky.csproj", "{29822B61-80ED-4A9C-B7FD-C33C4F9C04A9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sparky.Tests", "..\Sparky.Tests\Sparky.Tests.csproj", "{3011BB62-BFDF-4A2B-B059-6BAF31AD75DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{29822B61-80ED-4A9C-B7FD-C33C4F9C04A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29822B61-80ED-4A9C-B7FD-C33C4F9C04A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29822B61-80ED-4A9C-B7FD-C33C4F9C04A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3011BB62-BFDF-4A2B-B059-6BAF31AD75DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3011BB62-BFDF-4A2B-B059-6BAF31AD75DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3011BB62-BFDF-4A2B-B059-6BAF31AD75DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3011BB62-BFDF-4A2B-B059-6BAF31AD75DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Sparky.Model
 {
-    internal interface IPartial
+    public interface IPartial
     {
         string GetValue(IConfiguration root, Table currentTable);
     }
 
-    internal class RawPartial : IPartial
+    public class RawPartial : IPartial
     {
         private string _value;
 
@@ -26,7 +26,7 @@ namespace Sparky.Model
         }
     }
 
-    internal class SimpleKeyPartial : IPartial
+    public class SimpleKeyPartial : IPartial
     {
         private string _key;
 
@@ -54,7 +54,7 @@ namespace Sparky.Model
         }
     }
 
-    internal class Rule : IPartial
+    public class Rule : IPartial
     {
         protected ICollection<IPartial> _bits;
 
@@ -74,7 +74,7 @@ namespace Sparky.Model
         }
     }
 
-    internal class KeyRule : Rule
+    public class KeyRule : Rule
     {
         internal KeyRule(ICollection<IPartial> bits) : base(bits) { }
 

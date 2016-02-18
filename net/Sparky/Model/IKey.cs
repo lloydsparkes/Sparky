@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace Sparky.Model
 {
-    internal enum KeyType
+    public enum KeyType
     {
         Constant,
         TableColumn,
         Indexer
     }
 
-    internal interface IKey
+    public interface IKey
     {
         bool Matches(string toTest, IConfiguration root);
 
         ICollection<string> Values(IConfiguration root);
     }
 
-    internal abstract class BaseKey : IKey
+    public abstract class BaseKey : IKey
     {
         internal KeyType Type { get; private set; }
 
@@ -44,7 +44,7 @@ namespace Sparky.Model
         public abstract ICollection<string> Values(IConfiguration root);
     }
 
-    internal class ConstantKey : BaseKey
+    public class ConstantKey : BaseKey
     {
         private readonly string _constant;
 
@@ -59,7 +59,7 @@ namespace Sparky.Model
         }
     }
 
-    internal class TableKey : BaseKey
+    public class TableKey : BaseKey
     {
         private string _columnName;
         private Table _table;
@@ -78,7 +78,7 @@ namespace Sparky.Model
         }
     }
 
-    internal class IndexerKey : TableKey
+    public class IndexerKey : TableKey
     {
         public IndexerKey(Table referencedTable) : base(KeyType.Indexer, Table.INDEX_KEY, referencedTable) { }
     }

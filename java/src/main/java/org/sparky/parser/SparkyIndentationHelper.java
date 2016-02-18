@@ -60,10 +60,6 @@ public abstract class SparkyIndentationHelper {
         return r;
     }
 
-    public IndenterOptions getOptions() {
-        return new IndenterOptionsImpl();
-    }
-
     protected abstract Token pullToken();
 
     private void initIfFirstRun() {
@@ -134,17 +130,6 @@ public abstract class SparkyIndentationHelper {
             reachedEof = true;
             return r;
         }
-    }
-
-    private final class IndenterOptionsImpl implements IndenterOptions {
-        @Override
-        public void ignoreEOF() {
-            eofHandler = t -> {
-                reachedEof = true;
-                return t;
-            };
-        }
-
     }
 
     private Token createToken(int tokenType, Token copyFrom) {

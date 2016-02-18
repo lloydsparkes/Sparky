@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Sparky.Model
 {
-    internal class Configuration : IConfiguration
+    public class Configuration : IConfiguration
     {
         private IDictionary<string, string> _externs = new Dictionary<string, string>();
         private Block _root;
 
-        internal Configuration(Block root)
+        public Configuration(Block root)
         {
             _root = root;
         }
@@ -43,7 +43,14 @@ namespace Sparky.Model
 
         public void SetExternal(string key, string value)
         {
-            _externs.Add(key.ToUpper(), value);
+            if (_externs.ContainsKey(key))
+            {
+                _externs[key] = value;
+            }
+            else
+            {
+                _externs.Add(key.ToUpper(), value);
+            }
         }
     }
 }

@@ -12,10 +12,10 @@ namespace Sparky.Parser
         private readonly int _nlToken;
         private readonly int _indentToken;
         private readonly int _dedentToken;
-        private readonly Func<IToken> _puller;
+        private readonly Func<IToken> _pullToken;
 
         private readonly Queue<IToken> _dentsBuffer = new Queue<IToken>();
-        private readonly Queue<int> _indentations = new Queue<int>();
+        private readonly Stack<int> _indentations = new Stack<int>();
 
         private bool _reachedEof = false;
 
@@ -24,13 +24,13 @@ namespace Sparky.Parser
             _nlToken = nl;
             _indentToken = indent;
             _dedentToken = dedent;
-            _puller = puller;
+            _pullToken = puller;
         }
 
         public IToken NextToken()
         {
             initOnFirstRun();
-            IToken t = _dentsBuffer.Count == 0 ? _puller() : _dentsBuffer.Dequeue();
+            IToken t = _dentsBuffer.Count == 0 ? _pullToken() : _dentsBuffer.Dequeue();
 
             if (_reachedEof)
             {
@@ -41,7 +41,8 @@ namespace Sparky.Parser
             if(t.Type == _nlToken)
             {
                 r = handleNewLineToken(t);
-            } else if(t.Type == TokenConstants.Eof)
+            }
+            else if(t.Type == TokenConstants.Eof)
             {
                 r = handleEof(t);
             } 
@@ -56,18 +57,18 @@ namespace Sparky.Parser
         {
             if(_indentations.Count == 0)
             {
-                _indentations.Enqueue(0);
+                _indentations.Push(0);
 
-                IToken firstRealToken = _puller();
+                IToken firstRealToken = _pullToken();
                 do
                 {
-                    firstRealToken = _puller();
+                    firstRealToken = _pullToken();
                 }
                 while (firstRealToken.Type == _nlToken);
 
                 if(firstRealToken.StartIndex > 0)
                 {
-                    _indentations.Enqueue(firstRealToken.StartIndex);
+                    _indentations.Push(firstRealToken.StartIndex);
                     _dentsBuffer.Enqueue(createToken(_indentToken, firstRealToken));
                 }
                 _dentsBuffer.Enqueue(firstRealToken);
@@ -76,11 +77,11 @@ namespace Sparky.Parser
 
         private IToken handleNewLineToken(IToken t)
         {
-            IToken nextNext = _puller();
+            IToken nextNext = _pullToken();
             while(nextNext.Type == _nlToken)
             {
                 t = nextNext;
-                nextNext = _puller();
+                nextNext = _pullToken();
             }
 
             if(nextNext.Type == TokenConstants.Eof)
@@ -102,7 +103,7 @@ namespace Sparky.Parser
             }
             else if(indent > prevIndent)
             {
-                _indentations.Enqueue(indent);
+                _indentations.Push(indent);
                 _dentsBuffer.Enqueue(createToken(_indentToken, t));
                 r = createToken(_nlToken, t);
             }
@@ -148,20 +149,20 @@ namespace Sparky.Parser
 
             while (true)
             {
-                int prevIndent = _indentations.Dequeue();
+                int prevIndent = _indentations.Pop();
                 if(prevIndent == indentTarget)
                 {
                     break;
                 }
                 if(indentTarget > prevIndent)
                 {
-                    _indentations.Enqueue(prevIndent);
+                    _indentations.Push(prevIndent);
                     _dentsBuffer.Enqueue(createToken(_indentToken, t));
                     break;
                 }
                 _dentsBuffer.Enqueue(createToken(_dedentToken, t));
             }
-            _indentations.Enqueue(indentTarget);
+            _indentations.Push(indentTarget);
             return _dentsBuffer.Dequeue();
         }
 

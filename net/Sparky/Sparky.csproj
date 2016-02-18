@@ -51,6 +51,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Block.cs" />
+    <Compile Include="Model\Builder\BlockBuilder.cs" />
+    <Compile Include="Model\Builder\FilterBuilder.cs" />
+    <Compile Include="Model\Builder\IEvaluatableBuilder.cs" />
+    <Compile Include="Model\Builder\RowBuilder.cs" />
+    <Compile Include="Model\Builder\TableBuilder.cs" />
+    <Compile Include="Model\Builder\ValueBuilder.cs" />
+    <Compile Include="Model\Builder\VariableBuilder.cs" />
     <Compile Include="Model\Configuration.cs" />
     <Compile Include="Model\Exceptions\InvalidColumnNameException.cs" />
     <Compile Include="Model\Exceptions\InvalidKeyException.cs" />
@@ -62,6 +69,7 @@
     <Compile Include="Model\Table.cs" />
     <Compile Include="Parser\SparkyIndentationHelper.cs" />
     <Compile Include="Parser\SparkyLexerFixed.cs" />
+    <Compile Include="Parser\SparkyVisitor.cs" />
     <Compile Include="Parser\Utils\InjectedToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

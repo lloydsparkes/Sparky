@@ -6,9 +6,14 @@ using System.Threading.Tasks;
 
 namespace Sparky.Model
 {
-    internal class Filter
+    public class Filter
     {
-        private Rule valueKey;
+        private Rule _valueKey;
+
+        public Filter(Rule key)
+        {
+            _valueKey = key;
+        }
 
         public bool HasChanged(IConfiguration root)
         {
@@ -17,7 +22,7 @@ namespace Sparky.Model
 
         public string Value(IConfiguration root)
         {
-            return valueKey.GetValue(root, null);
+            return _valueKey.GetValue(root, null);
         }
     }
 }

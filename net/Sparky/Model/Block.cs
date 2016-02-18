@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Sparky.Model
 {
-    internal class Block
+    public class Block
     {
         protected readonly IKey _key;
         protected readonly ICollection<Block> _children;
@@ -50,7 +50,7 @@ namespace Sparky.Model
                     {
                         if(c is IndexerBlock)
                         {
-
+                            return (c as IndexerBlock).Value(toFulfil, brokenPath, root);
                         }
                         else
                         {

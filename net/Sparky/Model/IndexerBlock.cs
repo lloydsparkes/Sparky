@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Sparky.Model
 {
-    internal class IndexerBlock : Block
+    public class IndexerBlock : Block
     {
         public IndexerBlock(IKey key, ICollection<Block> children, IDictionary<IKey, Rule> rules, Table table)
             : base(key, children, rules, table)

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Sparky.Model
 {
-    internal class Table
+    public class Table
     {
         public static readonly string INDEX_KEY = "$$";
 
@@ -27,6 +27,11 @@ namespace Sparky.Model
 
         internal string ValueForColumn(string columnName, IConfiguration root)
         {
+            var values = ValuesForColumn(columnName, root);
+            if(values.Count == 1)
+            {
+                return values.First();
+            }
             return null;
         }
 
@@ -127,7 +132,7 @@ namespace Sparky.Model
 
         internal void SetRowIndex(int index)
         {
-            _rowIndexLock = 0;
+            _rowIndexLock = index-1;
         }
 
         internal void ClearRowIndex()
