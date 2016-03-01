@@ -12,16 +12,26 @@ namespace Sparky.Parser
 {
     public class SparkyVisitor : SparkyBaseVisitor<object>
     {
+        private BlockBuilder _mainBlockBuilder;
+
+        public SparkyVisitor(BlockBuilder blockBuilder) : base()
+        {
+            _mainBlockBuilder = blockBuilder;
+        }
+
+        public SparkyVisitor() : base()
+        {
+            _mainBlockBuilder = new BlockBuilder();
+        }
+
         public override object VisitConfig([NotNull] SparkyParser.ConfigContext context)
         {
-            BlockBuilder b = new BlockBuilder();
-
             foreach(var block in context.block())
             {
-                b.WithBlock(VisitBlock(block) as BlockBuilder);
+                _mainBlockBuilder.WithBlock(VisitBlock(block) as BlockBuilder);
             }
 
-            return b;
+            return _mainBlockBuilder;
         }
 
         public override object VisitBlock([NotNull] SparkyParser.BlockContext context)

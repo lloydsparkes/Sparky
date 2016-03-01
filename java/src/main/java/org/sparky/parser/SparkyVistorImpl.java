@@ -12,15 +12,21 @@ import org.sparky.model.builders.*;
  */
 public class SparkyVistorImpl extends SparkyBaseVisitor<Object> {
 
+    private BlockBuilder mainBuilder = new BlockBuilder();
+
+    public SparkyVistorImpl() {}
+
+    public SparkyVistorImpl(BlockBuilder builder) {
+        mainBuilder = builder;
+    }
+
     @Override
     public BlockBuilder visitConfig(SparkyParser.ConfigContext ctx) {
-        BlockBuilder builder = new BlockBuilder();
-
         for(SparkyParser.BlockContext block : ctx.block()){
-            builder.withBlock(visitBlock(block));
+            mainBuilder.withBlock(visitBlock(block));
         }
 
-        return builder;
+        return mainBuilder;
     }
 
     @Override
