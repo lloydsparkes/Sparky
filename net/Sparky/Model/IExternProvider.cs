@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Sparky.Model
 {
-    public interface IConfiguration
+    public interface IExternProvider
     {
-        string Resolve(string key);
+        string GetExtern(string key);
 
-        IExternProvider ExternProvider { get; }
+        bool HasExtern(string key);
     }
 }

@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.sparky.model.Configuration;
+import org.sparky.model.ExternProvider;
 import org.sparky.model.builders.BlockBuilder;
 import org.sparky.model.exceptions.InvalidKeyException;
 import org.sparky.parser.SparkyLexer;
@@ -44,27 +45,6 @@ public class ConfigurationTester {
 
     public ConfigurationTester(File file, String name){
         this.file = file;
-    }
-
-    public Configuration getConfiguration(){
-        try {
-            //Yes this is bad, but I want to use the shared examples so all platforms utilise them.
-            ANTLRFileStream fs = new ANTLRFileStream(file.getAbsolutePath());
-            SparkyLexerFixed lexer = new SparkyLexerFixed(fs);
-            CommonTokenStream tokens = new CommonTokenStream(lexer);
-
-            //TODO: Set Error Handler
-            SparkyParser ps = new SparkyParser(tokens);
-
-            SparkyVistorImpl walker = new SparkyVistorImpl();
-            BlockBuilder built = (BlockBuilder) walker.visit(ps.config());
-
-            return new Configuration(built.build(null));
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
-        return null;
     }
 
     public Map<List<KeyValue>, List<KeyValue>> getTestsInFile(){
@@ -106,13 +86,13 @@ public class ConfigurationTester {
 
     @Test
     public void execute() throws InvalidKeyException {
-        Configuration config = getConfiguration();
+        Configuration config = (new ConfigurationBuilder().withFile(file.getAbsolutePath()).build());
 
         Map<List<KeyValue>, List<KeyValue>> tests = getTestsInFile();
 
         for(List<KeyValue> externs : tests.keySet()) {
             for(KeyValue extern : externs){
-                config.setExternalVariable(extern.getKey(), extern.getValue());
+                ((MapExternProvider)config.getExternProvider()).setExtern(extern.getKey(), extern.getValue());
             }
             for (KeyValue toTest : tests.get(externs)) {
 

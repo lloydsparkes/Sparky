@@ -3,6 +3,7 @@ package org.sparky;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.sparky.model.Configuration;
+import org.sparky.model.ExternProvider;
 import org.sparky.model.builders.BlockBuilder;
 import org.sparky.parser.SparkyLexerFixed;
 import org.sparky.parser.SparkyParser;
@@ -12,13 +13,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-/**
- * Created by lloyd on 01/03/2016.
- */
 public class ConfigurationBuilder {
     private List<String> files = new ArrayList<>();
     private List<String> directories = new ArrayList<>();
+    private ExternProvider externProvider = new MapExternProvider();
 
     public ConfigurationBuilder withFile(String file){
         files.add(file);
@@ -27,6 +27,21 @@ public class ConfigurationBuilder {
 
     public ConfigurationBuilder withDirectory(String directory){
         directories.add(directory);
+        return this;
+    }
+
+    public ConfigurationBuilder withEnvironmentVariable(){
+        externProvider = new EnvironmentExternProvider();
+        return this;
+    }
+
+    public ConfigurationBuilder withMapVariables(){
+        externProvider = new MapExternProvider();
+        return this;
+    }
+
+    public ConfigurationBuilder withMapVariables(Map<String, String> externs){
+        externProvider = new MapExternProvider(externs);
         return this;
     }
 
@@ -64,7 +79,7 @@ public class ConfigurationBuilder {
             loadFile(builder, file);
         }
 
-        return new Configuration(builder.build(null));
+        return new Configuration(builder.build(null), externProvider);
     }
 
     private void loadFile(BlockBuilder builder, String file) {

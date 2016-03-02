@@ -1,11 +1,6 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using NUnit.Framework;
 using System.Collections.Generic;
-using Sparky.Model;
-using Antlr4.Runtime;
-using Sparky.Parser;
-using Sparky.Model.Builder;
 
 namespace Sparky.Tests
 {
@@ -15,7 +10,7 @@ namespace Sparky.Tests
         [Test, TestCaseSource(typeof(TestFactory), "TestCases")]
         public void TestFileAgainstExpectations(string file)
         {
-            var config = LoadConfiguration(file);
+            var config = (new ConfigurationBuilder()).WithFile(file).Build();
             var expectations = LoadExpectations(file);
 
             foreach(var externSet in expectations.Keys)
@@ -24,7 +19,7 @@ namespace Sparky.Tests
 
                 foreach(var ex in externSet)
                 {
-                    config.SetExternal(ex.Key, ex.Value);
+                    ((DictionaryExternProvider)config.ExternProvider).SetExtern(ex.Key, ex.Value);
                 }
 
                 foreach(var test in tests)
@@ -32,24 +27,6 @@ namespace Sparky.Tests
                     Assert.AreEqual(test.Value, config.Resolve(test.Key));
                 }
             }
-        }
-
-        private IConfiguration LoadConfiguration(string file)
-        {
-            using(var raw = new StreamReader(file))
-            {
-                var fs = new AntlrInputStream(raw);
-
-                var lexer = new SparkyLexerFixed(fs);
-                var cts = new CommonTokenStream(lexer);
-                var parser = new SparkyParser(cts);
-
-                var visitor = new SparkyVisitor();
-                var rootBlock = visitor.Visit(parser.config()) as BlockBuilder;
-
-                return new Configuration(rootBlock.Build(null));
-            }
-            
         }
 
         private IDictionary<List<KeyValuePair<string, string>>, List<KeyValuePair<string, string>>> LoadExpectations(string file)

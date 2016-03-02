@@ -51,6 +51,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigurationLoader.cs" />
+    <Compile Include="DictionaryExternProvider.cs" />
+    <Compile Include="EnvironmentExternProvider.cs" />
     <Compile Include="Model\Block.cs" />
     <Compile Include="Model\Builder\BlockBuilder.cs" />
     <Compile Include="Model\Builder\FilterBuilder.cs" />
@@ -64,6 +66,7 @@
     <Compile Include="Model\Exceptions\InvalidKeyException.cs" />
     <Compile Include="Model\Filter.cs" />
     <Compile Include="Model\IConfiguration.cs" />
+    <Compile Include="Model\IExternProvider.cs" />
     <Compile Include="Model\IKey.cs" />
     <Compile Include="Model\IndexerBlock.cs" />
     <Compile Include="Model\IPartial.cs" />

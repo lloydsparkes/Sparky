@@ -15,6 +15,7 @@ namespace Sparky
     {
         private List<string> _files = new List<string>();
         private List<string> _directories = new List<string>();
+        private IExternProvider _externProvider = new DictionaryExternProvider();
         
         public ConfigurationBuilder WithFile(string file)
         {
@@ -25,6 +26,24 @@ namespace Sparky
         public ConfigurationBuilder WithDirectory(string directory)
         {
             _directories.Add(directory);
+            return this;
+        }
+
+        public ConfigurationBuilder WithEnvironmentVariables()
+        {
+            _externProvider = new EnvironmentExternProvider();
+            return this;
+        }
+
+        public ConfigurationBuilder WithDictionaryProvider()
+        {
+            _externProvider = new DictionaryExternProvider();
+            return this;
+        }
+
+        public ConfigurationBuilder WithDictionaryProvider(Dictionary<string, string> vars)
+        {
+            _externProvider = new DictionaryExternProvider(vars);
             return this;
         }
 
@@ -62,7 +81,7 @@ namespace Sparky
                 }
             }
 
-            return new Configuration(builder.Build(null));
+            return new Configuration(builder.Build(null), _externProvider);
         }
 
         private void LoadFile(BlockBuilder builder, string file)

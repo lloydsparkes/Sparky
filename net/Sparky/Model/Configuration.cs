@@ -9,12 +9,13 @@ namespace Sparky.Model
 {
     public class Configuration : IConfiguration
     {
-        private IDictionary<string, string> _externs = new Dictionary<string, string>();
         private Block _root;
+        private IExternProvider _externProvider;
 
-        public Configuration(Block root)
+        public Configuration(Block root, IExternProvider externProvider)
         {
             _root = root;
+            _externProvider = externProvider;
         }
 
         public string Resolve(string key)
@@ -34,23 +35,16 @@ namespace Sparky.Model
         private string GetExternal(string key)
         {
             key = key.ToUpper();
-            if (_externs.ContainsKey(key))
+            if (_externProvider.HasExtern(key))
             {
-                return _externs[key];
+                return _externProvider.GetExtern(key);
             }
             throw new InvalidKeyException(string.Format("Could not find an external key '{0}'", key));
         }
 
-        public void SetExternal(string key, string value)
+        public IExternProvider ExternProvider
         {
-            if (_externs.ContainsKey(key))
-            {
-                _externs[key] = value;
-            }
-            else
-            {
-                _externs.Add(key.ToUpper(), value);
-            }
+            get { return _externProvider; }
         }
     }
 }

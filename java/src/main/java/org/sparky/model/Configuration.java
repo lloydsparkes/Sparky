@@ -15,11 +15,12 @@ import java.util.Queue;
  */
 public class Configuration {
 
-    private Map<String, String> externs = new HashMap<>();
     private Block root;
+    private ExternProvider externProvider;
 
-    public Configuration(Block root){
+    public Configuration(Block root, ExternProvider externProvider){
         this.root = root;
+        this.externProvider = externProvider;
     }
 
     public String get(String key) throws InvalidKeyException {
@@ -40,14 +41,14 @@ public class Configuration {
         return root.getValue(pathQ, this);
     }
 
-    public void setExternalVariable(String key, String value) throws InvalidKeyException {
-        externs.put(key.toUpperCase(), value);
-    }
-
     private String getExternalVariable(String key) throws InvalidKeyException {
-        if(externs.containsKey(key.toUpperCase())){
-            return externs.get(key.toUpperCase());
+        if(externProvider.hasExtern(key.toUpperCase())){
+            return externProvider.getExtern(key.toUpperCase());
         }
         throw new InvalidKeyException(String.format("Could not find an external key %s", key));
+    }
+
+    public ExternProvider getExternProvider(){
+        return externProvider;
     }
 }
